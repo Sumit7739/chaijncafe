@@ -15,6 +15,15 @@
             overflow: hidden;
         }
 
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            width: 90%;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+
         .logo {
             position: absolute;
             top: 10px;
@@ -26,12 +35,21 @@
             height: auto;
         }
 
+        .nav {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+        }
+
+        .nav i {
+            font-size: 25px;
+        }
+
         .user {
             position: relative;
-            margin-top: 70px;
+            margin-top: 50px;
             width: 98%;
             justify-content: left;
-            /* border: 1px solid; */
         }
 
         .container {
@@ -71,7 +89,11 @@
             display: flex;
             margin-top: 20px;
             gap: 5px;
-            /* border: 1px solid; */
+        }
+
+        .inffo p {
+            margin: 2px;
+            padding: 0;
         }
 
         .btn1 {
@@ -131,8 +153,6 @@
         .sec2 {
             margin-top: 20px;
             min-height: 700px;
-            /* overflow-y: scroll; */
-            /* border: 1px solid; */
         }
 
 
@@ -170,7 +190,6 @@
             height: 10px;
             background: orange;
             width: 60%;
-            /* Example progress */
         }
 
         .sec3 {
@@ -223,9 +242,14 @@
 </head>
 
 <body>
-    <div class="logo">
-        <img src="image/logo1.png" alt="LOGO">
-    </div>
+    <header>
+        <div class="logo">
+            <img src="image/logo1.png" alt="Logo">
+        </div>
+        <div class="nav">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+    </header>
 
     <section>
         <div class="user">
@@ -245,7 +269,7 @@
                     <p>Total Points :- 45</p>
                 </div>
                 <div class="btn2">
-                    <p>Card Tier :- <span>Bronze</span></p>
+                    <p>Card:- <span>Bronze</span></p>
                 </div>
                 <div class="btn3">
                     <div class="wrapper">
@@ -253,7 +277,7 @@
                     </div>
                 </div>
             </div>
-            <p class="exp">Points expires on month's end</p>
+            <p class="exp">Points expires in 8 days</p>
         </div>
     </section>
     <br>
@@ -296,9 +320,9 @@
     </section>
     <section class="sec3">
         <div class="navbar">
-            <a href="#"><img src="image/transactions.png" alt="transactions"></a>
-            <a href="#"><img src="image/redeem.png" alt="redeem"></a>
-            <a href="#"><i class="fa-solid fa-house active"></i></a>
+            <a href="#"><i class="fa-solid fa-money-bill-transfer"></i></a>
+            <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i></a>
+            <a href="profile.html"><i class="fa-solid fa-house active"></i></a>
             <a href="#"><i class="fa-solid fa-bell"></i></a>
             <a href="#"><i class="fa-solid fa-gear"></i></a>
         </div>

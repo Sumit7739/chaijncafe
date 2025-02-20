@@ -8,7 +8,8 @@
 }
 
 body {
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -22,7 +23,7 @@ body {
 
 .containerr {
     margin: 0 auto;
-    transform: translate(0, 50%);
+    transform: translate(0, 25%);
 }
 
 .logo {
@@ -31,6 +32,7 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
 }
+
 
 .logo span {
     color: #b87333;
