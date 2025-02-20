@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Kaushan+Script&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Kaushan Script, sans-serif;
+}
+
+body {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #eee;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+}
+
+.containerr {
+    margin: 0 auto;
+    transform: translate(0, 50%);
+}
+
+.logo {
+    margin: 0 auto;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.logo span {
+    color: #b87333;
+}
+
+.subtitle {
+
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+button {
+    width: 90%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.sign-in {
+    background-color: black;
+    color: white;
+}
+
+.create-account {
+    background-color: #eee;
+    border: 2px solid black;
+    color: black;
+}
+
+.terms {
+    font-size: 18px;
+    margin-top: 25px;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #000;
+}
+
+.footer {
+    position: absolute;
+    bottom: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    color: #666;
+}

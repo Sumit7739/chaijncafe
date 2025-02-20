@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chai Junction - Sign In</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Kaushan+Script&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Kaushan Script, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #eee;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            padding: 20px;
+        }
+
+        .logo {
+            margin-bottom: 10px;
+        }
+
+        .title {
+            text-align: left;
+            font-size: 36px;
+            /* font-weight: bold; */
+            margin-bottom: 15px;
+        }
+
+        .input-box {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .input-box label {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 2px solid #000;
+            background: transparent;
+            outline: none;
+        }
+
+        .input-box input::placeholder {
+            font-style: italic;
+            color: gray;
+        }
+
+        .sign-in-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            background-color: black;
+            color: white;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .sign-in-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .links {
+            font-size: 16px;
+            margin-top: 15px;
+            color: #333;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: #333;
+            /* font-weight: bold; */
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="logo">
+        <img src="image/logo1.png" alt="LOGO">
+    </div>
+
+    <div class="container">
+        <p class="title">Sign In</p>
+        <br>
+        <div class="input-box">
+            <label>Enter Your Email or Phone Number</label>
+            <input type="text" placeholder="example@gmail.com">
+        </div>
+
+        <div class="input-box">
+            <label>Enter Your Password</label>
+            <input type="password" placeholder="************">
+        </div>
+
+        <button class="sign-in-btn">Sign In</button>
+
+        <p class="links"><a href="#">Forgot Your Password?</a></p>
+        <p class="links">Don’t have an account? <a href="signup.html" class="bld" style="color: black; font-size: 18px;">Sign Up</a></p>
+
+    </div>
+    <p class="footer">T&C © 2025 Chai Junction. All rights reserved.</p>
+</body>
+
+</html>
