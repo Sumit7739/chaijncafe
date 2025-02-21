@@ -238,6 +238,109 @@
         .navbar .active {
             color: #000000;
         }
+
+        /* Menu Icon */
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Full-Screen Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease-in-out;
+            z-index: 99999;
+        }
+
+        .overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .overlay-content {
+            width: 100%;
+            height: 80vh;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 40px;
+            right: 35px;
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+        }
+
+
+        /* Menu List */
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            margin-top: -10px;
+        }
+
+        .menu-list li {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            /* border-bottom: 1px solid rgba(255, 255, 255, 0.2); */
+        }
+
+        .menu-list li:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-list li i {
+            font-size: 18px;
+            color: white;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            display: block;
+            text-align: center;
+            margin: 40px auto 0;
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            width: 90%;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: red;
+            border-color: red;
+        }
     </style>
 </head>
 
@@ -247,10 +350,27 @@
             <img src="image/logo1.png" alt="Logo">
         </div>
         <div class="nav">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
+            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleOverlay()"></i>
         </div>
     </header>
+    <!-- Overlay Popup -->
+    <div class="overlay" id="overlay">
+        <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
+        <div class="overlay-content">
+            <!-- Menu List -->
+            <ul class="menu-list">
+                <li>About <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li>
+            </ul>
 
+            <!-- Logout Button -->
+            <a href="logout.html" class="logout-btn">Log Out</a>
+        </div>
+    </div>
     <section>
         <div class="user">
             <div class="container">
@@ -327,6 +447,13 @@
             <a href="#"><i class="fa-solid fa-gear"></i></a>
         </div>
     </section>
+
+    <script>
+        function toggleOverlay() {
+            const overlay = document.getElementById("overlay");
+            overlay.classList.toggle("active");
+        }
+    </script>
 </body>
 
 </html>
