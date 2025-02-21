@@ -60,8 +60,12 @@ header {
 .profile-info {
     text-align: left;
     margin: 10px;
-    margin-top: 15px;
+    margin-top: 5px;
     width: 80%;
+    background-color: #E0FE48;
+    padding: 12px 23px;
+    border-radius: 50px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
 }
 
 .profile-info h2 {
