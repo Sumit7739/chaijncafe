@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/admindash.css">
+    <link rel="stylesheet" href="../css/adminoverview.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../image/logo1.png" alt="Logo">
+        </div>
+        <div class="nav">
+            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleOverlay()"></i>
+        </div>
+    </header>
+
+    <div class="dashboard">
+        <!-- Filter Bar -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="setActiveFilter(this)">today</button>
+            <button class="filter-btn" onclick="setActiveFilter(this)">7 days</button>
+            <button class="filter-btn" onclick="setActiveFilter(this)">15 days</button>
+            <button class="filter-btn" onclick="setActiveFilter(this)">30 days</button>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-container" id="statsContainer">
+            <div class="stat-box" style="background: #DAE9FA;">
+                <p>Total Transactions</p>
+                <b>35</b>
+            </div>
+            <div class="stat-box" style="background: #EFBDBD;">
+                <p>Total Points Issued</p>
+                <b>112</b>
+            </div>
+            <div class="stat-box" style="background: #BBB7E5;">
+                <p>Total Earnings</p>
+                <b>₹1259</b>
+            </div>
+            <div class="stat-box" style="background: #FFFBF2;">
+                <p>Total Points Redeemed</p>
+                <b>132</b>
+            </div>
+            <div class="stat-box" style="background: #B6C687;">
+                <p>New Users</p>
+                <b>23</b>
+            </div>
+            <div class="stat-box" style="background: #E8E0D6;">
+                <p>Total Users</p>
+                <b>97</b>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard dashboard2">
+        <h2>Top Customers</h2>
+        <div class="profile">
+            <img src="../image/user.png" alt="User Avatar">
+            <div class="profile-info">
+                <p>User Name</p>
+                <small>User ID</small>
+            </div>
+            <p>XX points</p>
+        </div>
+        <div class="profile">
+            <img src="../image/user.png" alt="User Avatar">
+            <div class="profile-info">
+                <p>User Name</p>
+                <small>User ID</small>
+            </div>
+            <p>XX points</p>
+        </div>
+        <div class="profile">
+            <img src="../image/user.png" alt="User Avatar">
+            <div class="profile-info">
+                <p>User Name</p>
+                <small>User ID</small>
+            </div>
+            <p>XX points</p>
+        </div>
+    </div>
+
+    <div class="container dashboard2">
+        <div class="title">Recent Transactions</div>
+
+        <div class="transaction">
+            <div>User Name</div>
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+        <div class="transaction">
+            <div>User Name</div>
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+        <div class="transaction">
+            <div>User Name</div>
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+        <div class="transaction">
+            <div>User Name</div>
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+    </div>
+    <br>
+    <div class="overlay" id="overlay">
+        <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
+        <div class="overlay-content">
+            <ul class="menu-list">
+                <li>About <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li>
+            </ul>
+            <a href="logout.html" class="logout-btn">Log Out</a>
+        </div>
+    </div>
+    <script src="../js/profile.js"></script>
+    <script src="../js/admindash.js"></script>
+    <script src="../js/adminoverview.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,257 @@
+.user {
+    margin-bottom: 10px;
+}
+
+.user .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -20px;
+}
+
+.user .profile-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 0px;
+}
+
+.profile-info h2 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.user .container .scan {
+    margin: 0;
+    padding: 0;
+    margin-right: 10px;
+}
+
+.container .btn5 {
+    width: 80px;
+    height: 50px;
+    font-size: 15px;
+    background-color: #fff;
+}
+
+.inffo {
+    background-color: #fff;
+    padding: 15px 10px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.inffo .btn1,
+.btn2 {
+    border-radius: 10px;
+}
+
+.searchbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ddd;
+    padding: 2px;
+}
+
+.searchbox .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container input {
+    width: 80%;
+    height: 40px;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-right: 5px;
+    font-size: 12px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.container .btn4 {
+    width: 80px;
+    height: 30px;
+    font-size: 12px;
+    padding: 0;
+}
+
+.dashboard {
+    width: 94%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border-radius: 35px;
+    margin-top: 20px;
+}
+
+.dashboard h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: #494949;
+}
+
+.dashboard-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dashboard-menu a {
+    text-decoration: none;
+    color: #000;
+}
+
+.menu-item {
+    background: #f8e8e4;
+    padding: 10px 25px;
+    border-radius: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.menu-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item p {
+    font-size: 1rem;
+    /* font-weight: bold; */
+    margin: 0;
+}
+
+.menu-item span {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.menu-item i {
+    font-size: 1rem;
+    color: #333;
+}
+
+.user-card {
+    background: white;
+    margin: auto;
+    margin-top: 10px;
+    width: 96%;
+    border-radius: 20px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: #f4ff59;
+    border-radius: 35px;
+}
+
+.profile img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.profile-info p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 5px;
+    font-size: 10px;
+}
+
+.stats div {
+    background: black;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.stats .card-tier {
+    color: orange;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.buttons button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 32%;
+    height: 40px;
+    font-size: 12px;
+}
+
+.add-points {
+    background: #90ee90;
+}
+
+.redeem-points {
+    background: #f8c8c8;
+}
+
+.view-btn {
+    background: white;
+    border: 2px solid black;
+}
+
+.view-btn i {
+    margin-right: 5px;
+}
+
+.input-container {
+    margin-top: 10px;
+}
+
+.input-container input {
+    padding: 10px;
+    width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+#add-btn {
+    background: green;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 5px;
+}
+
+#redeem-btn {
+    background: red;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 5px;
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/admindash.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../image/logo1.png" alt="Logo">
+        </div>
+        <div class="nav">
+            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleOverlay()"></i>
+        </div>
+    </header>
+    <!-- Overlay Popup -->
+    <div class="overlay" id="overlay">
+        <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
+        <div class="overlay-content">
+            <ul class="menu-list">
+                <li>About <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li>
+            </ul>
+            <a href="logout.html" class="logout-btn">Log Out</a>
+        </div>
+    </div>
+
+    <section>
+        <div class="user">
+            <div class="container">
+                <div class="profile-info">
+                    <h2>Welcome, Admin Name</h2>
+                </div>
+                <div class="scan">
+                    <button class="btn5"><i class="fa-solid fa-qrcode"></i> Scan</button>
+                </div>
+            </div>
+            <div class="inffo">
+                <div class="btn1">
+                    <p>Transactions - 11</p>
+                </div>
+                <div class="btn2">
+                    <p>Points Issued - 30</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="searchbox">
+            <div class="container">
+                <input type="text" placeholder="Search by Name, User ID, Email, Phone Number...">
+                <button class="btn4"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="user-card">
+            <div class="profile">
+                <img src="../image/user.png" alt="User Avatar">
+                <div class="profile-info">
+                    <p>User Name</p>
+                    <small>User ID</small>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div>Total Points :- 45</div>
+                <div>Card Tier :- <span class="card-tier">Bronze</span></div>
+                <div>Joined on 20-02-25</div>
+            </div>
+
+            <hr>
+
+            <div class="buttons">
+                <button class="add-points" onclick="toggleInput('add')">Add Points</button>
+                <button class="redeem-points" onclick="toggleInput('redeem')">Redeem Points</button>
+                <button class="view-btn"><i class="fa-solid fa-eye"></i> View</button>
+            </div>
+
+            <!-- Input Fields (Initially Hidden) -->
+            <div id="add-input-container" class="input-container" style="display: none;">
+                <input type="number" id="add-amount" placeholder="Enter amount">
+                <button id="add-btn" onclick="addPoints()">Add Points</button>
+            </div>
+
+            <div id="redeem-input-container" class="input-container" style="display: none;">
+                <input type="number" id="redeem-points" placeholder="Enter points">
+                <button id="redeem-btn" onclick="redeemPoints()">Redeem Points</button>
+            </div>
+
+
+        </div>
+    </section>
+    <section class="dashboard">
+        <h2>Dashboard</h2>
+        <div class="dashboard-menu">
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Add Points</p>
+                    <span>Manually add points to user accounts.</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <a href="overview.html">
+                <div class="menu-item">
+                    <div class="menu-text">
+                        <p>Overview</p>
+                        <span>A quick glance at Transactions.</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Redeem Points</p>
+                    <span>Redeem User Points</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>User Management</p>
+                    <span>Search Users, View/Edit User Details</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Transactions Management</p>
+                    <span>View All Transactions.</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Referral & Rewards Control</p>
+                    <span>Set Referral Bonus.</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Analytics & Reports</p>
+                    <span>Daily/Weekly/Monthly Reports.</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Admin Settings & Roles</p>
+                    <span>Modify System Settings</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Announcements & Updates</p>
+                    <span>Post Important Notices.</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-text">
+                    <p>Points & Transactions Reset</p>
+                    <span>Monthly Auto-Reset.</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+    </section>
+    <br>
+    <script src="../js/profile.js"></script>
+    <script src="../js/admindash.js"></script>
+</body>
+
+</html>
