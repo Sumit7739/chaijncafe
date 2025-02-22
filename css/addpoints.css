@@ -1,0 +1,129 @@
+.searchbox {
+    margin: 0;
+    margin: auto;
+    margin-top: 50px;
+    width: 96%;
+    border-radius: 10px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+    padding: 0;
+    background-color: #ddd;
+}
+
+.container input {
+    width: 100%;
+    padding: 10px;
+    height: 50px;
+}
+
+.container .btn4 {
+    height: 40px;
+    width: 110px;
+    padding: 10px 15px;
+    background-color: #fff;
+}
+
+.user-card {
+    padding: 15px 2px;
+}
+
+.profile {
+    padding: 0;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.stats div {
+    flex: 1;
+    font-size: 14px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+.stats2 div {
+    flex-basis: calc(60% - 5px);
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    width: 96%;
+    background-color: #fdd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.amount-container {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 0px;
+    justify-content: space-between;
+}
+
+.amount-container input {
+    width: 90%;
+    height: 40px;
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.add-points {
+    width: 25%;
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.amount-options {
+    margin: 0 auto;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    gap: 10px;
+    width: 90%;
+    border-radius: 10px;
+}
+
+.amount-btn {
+    margin: 4px auto;
+    width: 24%;
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #a8a8a8;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.dashboard2{
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 10px;
+}

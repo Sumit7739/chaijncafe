@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Points</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/admindash.css">
+    <link rel="stylesheet" href="../css/adminoverview.css">
+    <link rel="stylesheet" href="../css/addpoints.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../image/logo1.png" alt="Logo">
+        </div>
+        <div class="nav">
+            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleOverlay()"></i>
+        </div>
+    </header>
+    <!-- Overlay Popup -->
+    <div class="overlay" id="overlay">
+        <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
+        <div class="overlay-content">
+            <ul class="menu-list">
+                <li>About <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li>
+            </ul>
+            <a href="logout.html" class="logout-btn">Log Out</a>
+        </div>
+    </div>
+    <section>
+        <div class="searchbox">
+            <div class="container">
+                <input type="text" placeholder="Search by Name, User ID, Email, Phone Number..">
+                <button class="btn4"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="box">
+            <div class="amount-container">
+                <input type="number" id="amount-input" placeholder="Enter amount">
+                <button class="add-points">Add</button>
+            </div>
+            <div class="amount-options">
+                <button class="amount-btn" data-amount="1">₹1</button>
+                <button class="amount-btn" data-amount="2">₹2</button>
+                <button class="amount-btn" data-amount="5">₹5</button>
+                <button class="amount-btn" data-amount="10">₹10</button>
+                <button class="amount-btn" data-amount="20">₹20</button>
+                <button class="amount-btn" data-amount="50">₹50</button>
+                <button class="amount-btn" data-amount="100">₹100</button>
+                <button class="amount-btn" id="clear-btn">Clear</button>
+            </div>
+        </div>
+
+        <div class="user-card">
+            <h2 style="font-weight: 500; margin-bottom: 10px;">User Details</h2>
+            <div class="profile">
+                <img src="../image/user.png" alt="User Avatar">
+                <div class="profile-info">
+                    <p>User Name</p>
+                    <small>User ID</small>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div>Total Points :- 45</div>
+                <div>Card Tier :- <span class="card-tier">Bronze</span></div>
+            </div>
+
+            <div class="stats stats2">
+                <div>Total Amount Spent - 1450</div>
+                <div>Amount Needed for Silver Tier - 550</div>
+                <div>Joined on 20-02-25</div>
+            </div>
+        </div>
+
+    </section>
+    <div class="container dashboard2">
+        <div class="title">Recent Transactions</div>
+
+        <div class="transaction">
+            <!-- <div>User Name</div> -->
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+        <div class="transaction">
+            <!-- <div>User Name</div> -->
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+        <div class="transaction">
+            <!-- <div>User Name</div> -->
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+        <div class="transaction">
+            <!-- <div>User Name</div> -->
+            <div class="amount">₹120</div>
+            <div class="points">+4 pts</div>
+            <div class="date">21-02-25</div>
+        </div>
+
+    </div>
+    <br>
+    <script src="../js/profile.js"></script>
+    <script src="../js/addpoints.js"></script>
+</body>
+
+</html>
