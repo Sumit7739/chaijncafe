@@ -26,6 +26,12 @@ body {
     margin-bottom: 10px;
 }
 
+.logo img{
+    margin-left: -10px;
+    width: 300px;
+    height: 80px
+}
+
 .title {
     text-align: left;
     font-size: 36px;
