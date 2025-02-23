@@ -8,20 +8,22 @@ error_reporting(E_ALL);
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
+    require('config.php');
+
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm-password'];
 
     if (!isset($_POST['terms'])) {
         $error_message = "You must agree to the Terms and Conditions.";
+    } elseif ($password !== $confirm_password) {
+        $error_message = "Passwords do not match.";
+    } elseif (strlen($password) < 6) {
+        $error_message = "Password must be at least 6 characters long.";
     } else {
-        include('config.php');
-
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Check if the user exists
+        // Check if user exists
         $sql = "SELECT * FROM users WHERE email = ? OR phone = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $email, $phone);
@@ -29,28 +31,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            $error_message = "User already exists with this email or phone number";
+            $error_message = "User already exists with this email or phone number.";
         } else {
-            // Insert new user
+            // Hash password (Only Once)
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insert user
             $sql = "INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ssss", $name, $email, $phone, $hashed_password);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
+            if ($stmt->execute()) {
                 $_SESSION['id'] = $stmt->insert_id;
-                header('Location: welcome.php');
+                header('Location: success.html');
                 exit();
             } else {
-                $error_message = "Failed to create user";
+                $error_message = "Failed to create user.";
             }
         }
 
         $stmt->close();
-        $conn->close();
     }
+    $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

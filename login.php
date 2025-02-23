@@ -8,39 +8,44 @@ error_reporting(E_ALL);
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $emailOrPhone = $_POST['email_or_phone'];
-    $enteredPassword = $_POST['password'];
-
     require('config.php');
 
-    // Query to check both email and phone
+    $emailOrPhone = trim($_POST['email_or_phone']);
+    $enteredPassword = trim($_POST['password']);
+
     $sql = "SELECT user_id, password FROM users WHERE email = ? OR phone = ?";
     $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("SQL error: " . $conn->error);
+    }
+
     $stmt->bind_param("ss", $emailOrPhone, $emailOrPhone);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        $storedHash = $row['password'];
 
-        // Verify the password
-        if (password_verify($enteredPassword, $row['password'])) {
+        // Verify Password
+        if (password_verify($enteredPassword, $storedHash)) {
             session_regenerate_id(true);
             $_SESSION['user_id'] = $row['user_id'];
 
             header("Location: welcome.php");
             exit();
         } else {
-            $error_message = "Invalid password";
+            $error_message = "Incorrect password.";
         }
     } else {
-        $error_message = "Invalid email or phone number";
+        $error_message = "Invalid email or phone number.";
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,13 +56,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Chai Junction - Sign In</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding-right: 30px;
+            /* Space for the eye icon */
+        }
+
+        .password-container i {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
 </head>
 
 <body>
     <div class="logo">
         <a href="index.html"><img src="image/logo1.png" alt="LOGO"></a>
     </div>
-    
+
     <?php if (!empty($error_message)): ?>
         <div class="error-message">
             <?php echo $error_message; ?>
@@ -75,7 +101,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="input-box">
                 <label>Enter Your Password</label>
-                <input type="password" name="password" placeholder="************" required>
+                <div class="password-container">
+                    <input type="password" name="password" id="password" placeholder="************" required>
+                    <i class="fas fa-eye" id="togglePassword"></i>
+                </div>
             </div>
 
             <button type="submit" class="sign-in-btn">Sign In</button>
@@ -86,6 +115,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <br>
     <p class="footer">T&C © 2025 Chai Junction. All rights reserved.</p>
+    <script>
+        // Password Visibility Toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.type === 'password' ? 'text' : 'password';
+            password.type = type;
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 
 </html>

@@ -209,24 +209,46 @@
     font-weight: bold;
     width: 32%;
     height: 40px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .add-points {
+    min-width: 47%;
     background: #90ee90;
 }
 
 .redeem-points {
+    min-width: 47%;
     background: #f8c8c8;
 }
 
-.view-btn {
-    background: white;
-    border: 2px solid black;
+#searchFilter {
+    padding: 2px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: border 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 
-.view-btn i {
-    margin-right: 5px;
+#searchFilter:hover {
+    border-color: #007bff;
+}
+
+#searchFilter:focus {
+    border-color: #0056b3;
+    background-color: #f8f9fa;
+}
+
+#searchFilter option {
+    padding: 8px;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    border-radius: 4px;
 }
 
 .input-container {

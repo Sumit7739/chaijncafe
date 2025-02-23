@@ -1,0 +1,5 @@
+# Ignore phpcode folder
+phpcode/
+
+# Ignore phpmailer folder
+phpmailer/
