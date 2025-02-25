@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,6 +8,7 @@ error_reporting(E_ALL);
 require '../config.php'; // Database connection
 $user = null;
 $showSearch = true;
+
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_id'])) {
     header("Location: adminLogin.php"); // Redirect to login if not logged in
@@ -23,7 +23,7 @@ if (isset($_GET['user_id'])) {
     $userId = intval($_GET['user_id']);
 
     // Fetch user details
-    $stmt = $conn->prepare("SELECT name, user_id, points_balance, card_level_id, amount_spent, created_at FROM users WHERE user_id = ?");
+    $stmt = $conn->prepare("SELECT name, user_id, points_balance, total_points, amount_spent, created_at FROM users WHERE user_id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -61,23 +61,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
         if ($conversion) {
             $pointsEarned = $conversion['points_awarded'];
 
-            // Apply perks multiplier based on card level
-            $stmt = $conn->prepare("SELECT perks FROM card_levels WHERE card_id = ?");
-            $stmt->bind_param("i", $user['card_level_id']);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $cardLevel = $result->fetch_assoc();
-
-            if ($cardLevel) {
-                $pointsEarned *= $cardLevel['perks'];
-            }
-
             // Update user points and amount spent
             $newPointsBalance = $user['points_balance'] + $pointsEarned;
+            $newTotalPoints = $user['total_points'] + $pointsEarned; // Keep total_points immutable
             $newAmountSpent = $user['amount_spent'] + $amount;
 
-            $stmt = $conn->prepare("UPDATE users SET points_balance = ?, amount_spent = ? WHERE user_id = ?");
-            $stmt->bind_param("dii", $newPointsBalance, $newAmountSpent, $userId);
+            $stmt = $conn->prepare("UPDATE users SET points_balance = ?, total_points = ?, amount_spent = ? WHERE user_id = ?");
+            $stmt->bind_param("ddii", $newPointsBalance, $newTotalPoints, $newAmountSpent, $userId);
             $stmt->execute();
 
             // Insert transaction log
@@ -85,46 +75,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
             $stmt->bind_param("iidi", $userId, $_SESSION['admin_id'], $amount, $pointsEarned);
             $stmt->execute();
 
-            // Ensure the user has a default card level if it's NULL
-            if ($user['card_level_id'] === null) {
-                $stmt = $conn->prepare("SELECT card_id FROM card_levels ORDER BY amount_spent ASC LIMIT 1");
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $defaultCardLevel = $result->fetch_assoc();
-
-                if ($defaultCardLevel) {
-                    $stmt = $conn->prepare("UPDATE users SET card_level_id = ? WHERE user_id = ?");
-                    $stmt->bind_param("ii", $defaultCardLevel['card_id'], $userId);
-                    $stmt->execute();
-                    $user['card_level_id'] = $defaultCardLevel['card_id']; // Update local variable to avoid redundant queries
-                }
-            }
-
-            // Check for card upgrade after updating amount spent
-            $stmt = $conn->prepare("SELECT card_id FROM card_levels WHERE amount_spent <= ? ORDER BY amount_spent DESC LIMIT 1");
-            $stmt->bind_param("d", $newAmountSpent);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $updatedCardLevel = $result->fetch_assoc();
-
-            if ($updatedCardLevel && $updatedCardLevel['card_id'] != $user['card_level_id']) {
-                $stmt = $conn->prepare("UPDATE users SET card_level_id = ? WHERE user_id = ?");
-                $stmt->bind_param("ii", $updatedCardLevel['card_id'], $userId);
-                $stmt->execute();
-            }
-
-
-
             // Insert admin log
-            $adminId = 1; // Change to actual logged-in admin ID
+            $adminId = $_SESSION['admin_id'];
             $action = "Added Points";
-            $tableName = "users"; // The affected table
+            $tableName = "users";
             $recordId = $userId;
-            $message = "Added $points points to user ID $userId"; // Custom message
+            $message = "Added $pointsEarned points to user ID $userId";
 
             $stmt = $conn->prepare("INSERT INTO audit_logs (admin_id, action, table_name, record_id, message, created_at) 
                         VALUES (?, ?, ?, ?, ?, NOW())");
             $stmt->bind_param("issis", $adminId, $action, $tableName, $recordId, $message);
+            $stmt->execute();
+
+            // Insert notification entry
+            $notificationMessage = "You have received $pointsEarned points.";
+            $notificationType = "points_update";
+            $notificationStatus = "unread";
+
+            $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, status, created_at) VALUES (?, ?, ?, ?, NOW())");
+            $stmt->bind_param("isss", $userId, $notificationMessage, $notificationType, $notificationStatus);
             $stmt->execute();
 
             // Refresh page to show updated values
@@ -136,6 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -163,6 +133,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
         .profile-info small {
             font-size: 16px;
         }
+
+        .nav a {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #000;
+        }
     </style>
 </head>
 
@@ -172,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
             <img src="../image/logo1.png" alt="Logo">
         </div>
         <div class="nav">
-            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleOverlay()"></i>
+            <a href="admindash.php"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
     </header>
 
@@ -205,7 +182,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
     <br>
     <?php if ($user): ?>
         <section>
+            <div class="user-card">
+                <h2 style="font-weight: 500; margin-bottom: 10px;">User Details</h2>
+                <div class="profile">
+                    <img src="../image/user.png" alt="User Avatar">
+                    <div class="profile-info">
+                        <p><?php echo htmlspecialchars($user['name']); ?></p>
+                        <small>ID: <?php echo htmlspecialchars($user['user_id']); ?></small>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div>Total Points: <?php echo htmlspecialchars($user['points_balance']); ?></div>
+                </div>
+
+                <div class="stats stats2">
+                    <div>Total Amount Spent: ₹<?php echo htmlspecialchars($user['amount_spent']); ?></div>
+                    <div>Joined on: <?php echo date("d-m-Y", strtotime($user['created_at'])); ?></div>
+                </div>
+            </div>
+
             <div class="box">
+                <h2 style="font-weight: 500; margin-top: 10px; margin-bottom: 10px;">Add Points</h2>
                 <form method="POST">
                     <div class="amount-container">
                         <input type="number" name="amount" id="amount-input" placeholder="Enter amount" required>
@@ -222,28 +220,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
                         <button type="button" id="clear-btn" class="amount-btn">Clear</button>
                     </div>
                 </form>
-            </div>
-
-            <div class="user-card">
-                <h2 style="font-weight: 500; margin-bottom: 10px;">User Details</h2>
-                <div class="profile">
-                    <img src="../image/user.png" alt="User Avatar">
-                    <div class="profile-info">
-                        <p><?php echo htmlspecialchars($user['name']); ?></p>
-                        <small>ID: <?php echo htmlspecialchars($user['user_id']); ?></small>
-                    </div>
-                </div>
-
-                <div class="stats">
-                    <div>Total Points: <?php echo htmlspecialchars($user['points_balance']); ?></div>
-                    <div>Card Tier: <span class="card-tier"><?php echo htmlspecialchars($user['card_level_id'] ?? "Null"); ?></span></div>
-                </div>
-
-                <div class="stats stats2">
-                    <div>Total Amount Spent: ₹<?php echo htmlspecialchars($user['amount_spent']); ?></div>
-                    <div>Amount Needed for Next Tier: ₹<?php echo max(0, 2000 - $user['amount_spent']); ?></div>
-                    <div>Joined on: <?php echo date("d-m-Y", strtotime($user['created_at'])); ?></div>
-                </div>
             </div>
         </section>
 

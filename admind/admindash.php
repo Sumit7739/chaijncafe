@@ -64,6 +64,23 @@ $usersJson = json_encode($users);
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/admindash.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 5px;
+        }
+
+        .stats div {
+            background: black;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            /* font-weight: bold; */
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
@@ -98,9 +115,9 @@ $usersJson = json_encode($users);
                 <div class="profile-info">
                     <h2>Welcome, <?php echo htmlspecialchars($name); ?></h2>
                 </div>
-                <div class="scan">
+                <!-- <div class="scan">
                     <button class="btn5"><i class="fa-solid fa-qrcode"></i> Scan</button>
-                </div>
+                </div> -->
             </div>
             <div class="inffo">
                 <div class="btn1">
@@ -134,16 +151,7 @@ $usersJson = json_encode($users);
     <section class="dashboard">
         <h2>Dashboard</h2>
         <div class="dashboard-menu">
-            <a href="addpoints.php">
-                <div class="menu-item">
-                    <div class="menu-text">
-                        <p><i class="fa-solid fa-plus"></i> Add Points</p>
-                        <span>Manually add points to user accounts.</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
-            </a>
-            <a href="overview.html">
+            <a href="overview.php">
                 <div class="menu-item">
                     <div class="menu-text">
                         <p><i class="fa-solid fa-chart-line"></i> Overview</p>
@@ -152,13 +160,6 @@ $usersJson = json_encode($users);
                     <i class="fa-solid fa-chevron-right"></i>
                 </div>
             </a>
-            <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-coins"></i> Redeem Points</p>
-                    <span>Redeem User Points</span>
-                </div>
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
             <div class="menu-item">
                 <div class="menu-text">
                     <p><i class="fa-solid fa-user"></i> User Management</p>
@@ -255,13 +256,12 @@ $usersJson = json_encode($users);
         </div>
         <div class="stats">
             <div>Total Points: ${user.points_balance}</div>
-            <div>Card Tier: <span class="card-tier">${user.card_level_id}</span></div>
             <div>Joined on ${new Date(user.created_at).toLocaleDateString()}</div>
         </div>
         <hr>
         <div class="buttons">
-            <button class="add-points" onclick="redirectToPage('addpoints.php', '${user.user_id}')">Add Points</button>
-            <button class="redeem-points" onclick="redirectToPage('redeempoints.php', '${user.user_id}')">Redeem Points</button>
+            <button class="add-points" onclick="redirectToPage('addpoints.php', '${user.user_id}')"><i class="fa-solid fa-plus"></i> Add Points</button>
+            <button class="redeem-points" onclick="redirectToPage('redeempoints.php', '${user.user_id}')"><i class="fa-solid fa-coins"></i> Redeem Points</button>
         </div>
     `;
                 userList.appendChild(userCard);

@@ -95,9 +95,9 @@ $conn->close();
                 <div class="btn1">
                     <p>Total Points - <?php echo htmlspecialchars($pointsBalance); ?></p>
                 </div>
-                <div class="btn2">
+                <!-- <div class="btn2">
                     <p>Card:- <span><?php echo htmlspecialchars($cardLevelId);?></span></p>
-                </div>
+                </div> -->
                 <div class="btn3">
                     <div class="wrapper">
                         <button id="qrButton"><i class="fa-solid fa-qrcode"></i></button>
@@ -111,6 +111,7 @@ $conn->close();
     <div id="qrPopup" class="qr-overlay">
         <div class="qr-popup">
             <h2>Scan the <i>QR</i> on the Scanner</h2>
+            <p>Coming Soon</p>
             <img src="<?php echo htmlspecialchars($qrImage); ?>" alt="QR Code">
             <button id="closeQrPopup">Close</button>
         </div>
