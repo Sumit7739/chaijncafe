@@ -184,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
                     <div>Total Amount Spent: ₹<?php echo htmlspecialchars($user['amount_spent']); ?></div>
                     <div>Joined on: <?php echo date("d-m-Y", strtotime($user['created_at'])); ?></div>
                 </div>
-                <button onclick="window.location.href = 'admindash.php';" style="padding: 5px;">Back</button>
+                <!-- <button onclick="window.location.href = 'admindash.php';" style="padding: 5px;">Back</button> -->
             </div>
 
             <div class="box">

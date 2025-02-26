@@ -115,39 +115,36 @@ $usersJson = json_encode($users);
                 <div class="profile-info">
                     <h2>Welcome, <?php echo htmlspecialchars($name); ?></h2>
                 </div>
-                <!-- <div class="scan">
-                    <button class="btn5"><i class="fa-solid fa-qrcode"></i> Scan</button>
-                </div> -->
             </div>
-            <div class="inffo">
-                <div class="btn1">
-                    <p>Transactions - <?php echo htmlspecialchars($totalTransactions ?? 0); ?></p>
-                </div>
-                <div class="btn2">
-                    <p>Points Issued - <?php echo htmlspecialchars($totalPoints ?? 0); ?></p>
+            <div class="searchbox">
+                <div class="container2 container">
+                    <input type="text" id="searchInput" placeholder="Search..." oninput="searchUsers()">
+                    <select id="searchFilter">
+                        <option value="user_id">User ID</option>
+                        <option value="name">Name</option>
+                        <option value="email">Email</option>
+                        <option value="phone">Phone Number</option>
+                        <option value="all">ALL</option>
+                    </select>
                 </div>
             </div>
         </div>
     </section>
-
-    <section>
-        <div class="searchbox">
-            <div class="container">
-                <input type="text" id="searchInput" placeholder="Search..." oninput="searchUsers()">
-                <select id="searchFilter">
-                    <option value="user_id">User ID</option>
-                    <option value="name">Name</option>
-                    <option value="email">Email</option>
-                    <option value="phone">Phone Number</option>
-                    <option value="all">ALL</option>
-                </select>
-            </div>
-        </div>
-    </section>
-
     <section id="usersList" style="display: none;">
         <!-- Users will be dynamically inserted here -->
     </section>
+
+    <section>
+        <div class="inffo">
+            <div class="btn1">
+                <p>Transactions - <?php echo htmlspecialchars($totalTransactions ?? 0); ?></p>
+            </div>
+            <div class="btn2">
+                <p>Points Issued - <?php echo htmlspecialchars($totalPoints ?? 0); ?></p>
+            </div>
+        </div>
+    </section>
+
     <section class="dashboard">
         <h2>Dashboard</h2>
         <div class="dashboard-menu">
@@ -161,17 +158,21 @@ $usersJson = json_encode($users);
                 </div>
             </a>
             <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-user"></i> User Management</p>
-                    <span>Search Users, View/Edit User Details</span>
-                </div>
+                <a href="usermanagement.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-user"></i> User Management</p>
+                        <span>Search Users, View/Edit User Details</span>
+                    </div>
+                </a>
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-envelope"></i> Transactions Management</p>
-                    <span>View All Transactions.</span>
-                </div>
+                <a href="transactionsmanagement.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-envelope"></i> Transactions Management</p>
+                        <span>View All Transactions.</span>
+                    </div>
+                </a>
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
