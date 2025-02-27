@@ -1,5 +1,8 @@
 # Ignore phpcode folder
-phpcode/
+phpqrcode
 
 # Ignore phpmailer folder
-phpmailer/
+PHPMailer-master
+
+# Ignore FPDF folder
+admind/fpdf/

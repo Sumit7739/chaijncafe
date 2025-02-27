@@ -99,13 +99,13 @@ $usersJson = json_encode($users);
         <div class="overlay-content">
             <ul class="menu-list">
                 <li>About <i class="fa-solid fa-chevron-right"></i></li>
-                <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li>
+                <!-- <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li> -->
                 <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
                 <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
-                <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li>
-                <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li>
+                <!-- <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li> -->
+                <!-- <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li> -->
             </ul>
-            <a href="logout.html" class="logout-btn">Log Out</a>
+            <a href="logout.php" class="logout-btn">Log Out</a>
         </div>
     </div>
 
@@ -176,38 +176,56 @@ $usersJson = json_encode($users);
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-users"></i> Referral & Rewards Control</p>
-                    <span>Set Referral Bonus.</span>
-                </div>
+                <a href="referraltracking.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-users"></i> Referral & Rewards Control</p>
+                        <span>Set Referral Bonus.</span>
+                    </div>
+                </a>
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-chart-pie"></i> Analytics & Reports</p>
-                    <span>Daily/Weekly/Monthly Reports.</span>
-                </div>
+                <a href="reports.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-chart-pie"></i> Analytics & Reports</p>
+                        <span>Daily/Weekly/Monthly Reports.</span>
+                    </div>
+                </a>
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-gear"></i> Admin Settings & Roles</p>
-                    <span>Modify System Settings</span>
-                </div>
+                <a href="adminsettings.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-gear"></i> System Settings & Roles</p>
+                        <span>Modify System Settings</span>
+                    </div>
+                </a>
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-bell"></i> Announcements & Updates</p>
-                    <span>Post Important Notices.</span>
-                </div>
+                <a href="settings.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-gear"></i> Personal Settings</p>
+                        <span>Change Password, Profile Settings</span>
+                    </div>
+                </a>
+            </div>
+            <div class="menu-item">
+                <a href="announcement.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-bell"></i> Announcements & Updates</p>
+                        <span>Post Important Notices.</span>
+                    </div>
+                </a>
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
-                <div class="menu-text">
-                    <p><i class="fa-solid fa-rotate-right"></i> Points & Transactions Reset</p>
-                    <span>Monthly Auto-Reset.</span>
-                </div>
+                <a href="reset.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-rotate-right"></i> Points & Transactions Reset</p>
+                        <span>Monthly Auto-Reset.</span>
+                    </div>
+                </a>
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
         </div>

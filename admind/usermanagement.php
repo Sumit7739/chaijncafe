@@ -133,7 +133,7 @@ $result = $conn->query($sql);
             <a href="admindash.php"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
     </header>
-
+<br>
     <section>
         <div class="searchbox">
             <div class="container2 container">
@@ -153,7 +153,7 @@ $result = $conn->query($sql);
                     <th onclick="sortTable(0)">User ID ⬍</th>
                     <th onclick="sortTable(1)">Name ⬍</th>
                     <th onclick="sortTable(2)">Total Points ⬍</th>
-                    <!-- <th>View</th> -->
+                    <th>View</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,12 +161,12 @@ $result = $conn->query($sql);
                     <tr>
                         <td><?= $row["user_id"] ?></td>
                         <td><?= $row["name"] ?></td>
-                        <td style="text-align: right;"><?= $row["points_balance"] ?></td>
-                        <!-- <td>
+                        <td><?= $row["points_balance"] ?></td>
+                        <td>
                             <a href="userprofile.php?user_id=<?= $row['user_id'] ?>" class="view-link">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
-                        </td> -->
+                        </td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>

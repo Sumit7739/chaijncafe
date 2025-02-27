@@ -78,7 +78,7 @@ try {
 
     // Log action in audit log
     $logMessage = "Restored transaction #$transaction_id, deducted $points points and ₹$amount_paid from user #$user_id";
-    $insertLogQuery = "INSERT INTO audit_logs (admin_id, action, table_name, record_id, message, created_at) VALUES (?, 'restore', 'transactions', ?, ?, NOW())";
+    $insertLogQuery = "INSERT INTO audit_logs (admin_id, action, table_name, record_id, message, created_at) VALUES (?, 'Restore', 'transactions', ?, ?, NOW())";
     $stmt = $conn->prepare($insertLogQuery);
     $stmt->bind_param("iis", $admin_id, $transaction_id, $logMessage);
     $stmt->execute();
