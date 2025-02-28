@@ -92,45 +92,25 @@ if ($role !== 'admin' && $role !== 'dev') {
 // Timezone fix (IST)
 date_default_timezone_set('Asia/Kolkata');
 
-// Fetch admins
-$admins = $conn->query("SELECT id, name, phone, access, role FROM admin ORDER BY role, name");
-
 
 // Fetch activity logs
-$activity_logs = $conn->query("SELECT al.admin_id, al.action, al.table_name, al.record_id, al.message, al.created_at, a.name
-                                FROM audit_logs al
-                                JOIN admin a ON al.admin_id = a.id
-                                ORDER BY al.created_at DESC");
+$activity_logs = $conn->query("SELECT a.name, al.action, al.message, al.created_at 
+    FROM audit_logs al JOIN admin a ON al.admin_id = a.id 
+    ORDER BY al.created_at DESC LIMIT 50");
 
 // Fetch login logs
-$login_logs = $conn->query("SELECT ll.admin_id, ll.message, ll.login_time, a.name
-                            FROM login_log ll
-                            JOIN admin a ON ll.admin_id = a.id
-                            ORDER BY ll.login_time DESC");
-
-// Fetch conversion rules
-$rules = $conn->query("SELECT * FROM conversion_rules ORDER BY min_amount ASC");
-
-// Handle conversion rule update
-if (isset($_POST['update_rule'])) {
-    $rule_id = $_POST['rule_id'];
-    $min_amount = $_POST['min_amount'];
-    $max_amount = $_POST['max_amount'];
-    $points_awarded = $_POST['points_awarded'];
-    $stmt = $conn->prepare("UPDATE conversion_rules SET min_amount = ?, max_amount = ?, points_awarded = ? WHERE id = ?");
-    $stmt->bind_param("iiii", $min_amount, $max_amount, $points_awarded, $rule_id);
-    $stmt->execute();
-    header("Location: adminsettings.php");
-    exit();
-}
+$login_logs = $conn->query("SELECT a.name, ll.message, ll.login_time 
+    FROM login_log ll JOIN admin a ON ll.admin_id = a.id 
+    ORDER BY ll.login_time DESC LIMIT 50");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Admin Settings</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Log</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -286,55 +266,42 @@ if (isset($_POST['update_rule'])) {
     </header>
     <br>
     <div class="container">
-        <h2 class="title">Admin Settings</h2>
-        <!-- Admins List -->
+        <h1 class="title">Activity Log</h1>
+
+        <!-- Activity Log -->
         <div class="card">
             <div class="card-header">
-                Admins & Managers
-                <button class="toggle-btn" onclick="$('#adminsList').slideToggle();">Toggle</button>
+                Activity Log
+                <button class="toggle-btn" onclick="$('#activityLog').slideToggle();">Toggle</button>
             </div>
-            <div class="card-body" id="adminsList">
-                <?php while ($admin = $admins->fetch_assoc()) { ?>
-                    <div class="admin-card">
-                        <div>
-                            <strong><?= $admin['name'] ?></strong><br>
-                            <small>ID: <?= $admin['id'] ?> | Phone: <?= $admin['phone'] ?> | Role: <?= $admin['role'] ?></small>
-                            <br>
-                            <small>Access: <?= $admin['access'] ?></small>
-                        </div>
+            <div class="card-body" id="activityLog">
+                <?php while ($log = $activity_logs->fetch_assoc()) { ?>
+                    <div class="log-item">
+                        <strong><?= htmlspecialchars($log['name']) ?></strong> - <?= htmlspecialchars($log['action']) ?><br>
+                        <small><?= $log['message'] ?></small>
+                        <br>
+                        <small><?= $log['created_at'] ?></small>
                     </div>
                 <?php } ?>
             </div>
         </div>
 
-       
-
-        <!-- Conversion Rules (Moved to Bottom, Card-Based) -->
+        <!-- Login Log -->
         <div class="card">
             <div class="card-header">
-                Conversion Rules
-                <button class="toggle-btn" onclick="$('#rulesContainer').slideToggle();">Toggle</button>
+                Login Log
+                <button class="toggle-btn" onclick="$('#loginLog').slideToggle();">Toggle</button>
             </div>
-            <div class="card-body" id="rulesContainer">
-                <?php while ($rule = $rules->fetch_assoc()) { ?>
-                    <div class="rule-card">
-                        <form method="POST" class="rule-form">
-                            <input type="hidden" name="rule_id" value="<?= $rule['id'] ?>">
-                            <div>
-                                <label>Min Amount (₹)</label>
-                                <input type="number" name="min_amount" value="<?= $rule['min_amount'] ?>" placeholder="Min">
-                            </div>
-                            <div>
-                                <label>Max Amount (₹)</label>
-                                <input type="number" name="max_amount" value="<?= $rule['max_amount'] ?>" placeholder="Max">
-                            </div>
-                            <div>
-                                <label>Points Awarded</label>
-                                <input type="number" name="points_awarded" value="<?= $rule['points_awarded'] ?>" placeholder="Pts">
-                            </div>
-                            <button type="submit" name="update_rule">Update</button>
-                        </form>
-                    </div>
+            <div class="card-body" id="loginLog">
+                <?php if ($login_logs->num_rows > 0) {
+                    while ($log = $login_logs->fetch_assoc()) { ?>
+                        <div class="log-item">
+                        <strong><?= htmlspecialchars($log['name']) ?></strong><br>
+                            <small><?= htmlspecialchars($log['message']) ?> | <?= $log['login_time'] ?></small>
+                        </div>
+                    <?php }
+                } else { ?>
+                    <p>No login logs yet.</p>
                 <?php } ?>
             </div>
         </div>

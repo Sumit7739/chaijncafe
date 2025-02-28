@@ -23,7 +23,7 @@ if ($user_id <= 0) {
 }
 
 // Fetch user details
-$user_stmt = $conn->prepare("SELECT user_id, name, created_at, 
+$user_stmt = $conn->prepare("SELECT user_id, name, phone, email, total_points, created_at, 
     (SELECT SUM(points_given) - IFNULL((SELECT SUM(points_redeemed) FROM redeem WHERE user_id = ?), 0) FROM transactions WHERE user_id = ?) as points_balance,
     (SELECT SUM(amount_paid) FROM transactions WHERE user_id = ?) as amount_spent 
     FROM users WHERE user_id = ?");
@@ -57,6 +57,7 @@ $redeems = $redeem_stmt->get_result();
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/admindash.css">
+    <link rel="stylesheet" href="../css/addpoints.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -226,7 +227,7 @@ $redeems = $redeem_stmt->get_result();
             <img src="../image/logo1.png" alt="Logo">
         </div>
         <div class="nav">
-        <a href="admindash.php"><i class="fa-solid fa-arrow-left"></i></a>
+            <a href="usermanagement.php"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
     </header>
     <br>
@@ -236,7 +237,7 @@ $redeems = $redeem_stmt->get_result();
             <div class="card-header">User Details</div>
             <div class="card-body">
                 <div class="user-card">
-                    <h2>User Details</h2>
+                    <!-- <h2>User Details</h2> -->
                     <div class="profile">
                         <img src="../image/user.png" alt="User Avatar">
                         <div class="profile-info">
@@ -244,8 +245,13 @@ $redeems = $redeem_stmt->get_result();
                             <small>ID: <?php echo htmlspecialchars($user['user_id']); ?></small>
                         </div>
                     </div>
+                    <div class="stats">
+                        <div>Phone: <?php echo htmlspecialchars($user['phone']); ?></div>
+                        <div>Email: <?php echo htmlspecialchars($user['email']); ?></div>
+                    </div>
                     <div class="stats-container">
-                        <div class="stats">Total Points: <span><?php echo htmlspecialchars($user['points_balance']); ?></span></div>
+                        <div class="stats">Total Points: <span><?php echo htmlspecialchars($user['total_points'] ? : 0); ?></span></div>
+                        <div class="stats">Current Pts: <span><?php echo htmlspecialchars($user['points_balance'] ? : 0 ) ; ?></span></div>
                         <?php if ($role !== 'manager') { ?>
                             <div class="stats2">Total Spent: ₹<span><?php echo htmlspecialchars($user['amount_spent']); ?></span></div>
                         <?php } ?>
@@ -296,6 +302,7 @@ $redeems = $redeem_stmt->get_result();
             </div>
         </div>
     </div>
+    <br>
 </body>
 
 </html>

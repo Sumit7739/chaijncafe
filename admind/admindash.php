@@ -100,8 +100,10 @@ $usersJson = json_encode($users);
             <ul class="menu-list">
                 <li>About <i class="fa-solid fa-chevron-right"></i></li>
                 <!-- <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li> -->
-                <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
-                <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                <!-- <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li> -->
+                <a href="terms.html">
+                    <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                </a>
                 <!-- <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li> -->
                 <!-- <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li> -->
             </ul>
@@ -215,6 +217,15 @@ $usersJson = json_encode($users);
                     <div class="menu-text">
                         <p><i class="fa-solid fa-bell"></i> Announcements & Updates</p>
                         <span>Post Important Notices.</span>
+                    </div>
+                </a>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
+                <a href="activitylog.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-clipboard-list"></i> Activity & Login Logs</p>
+                        <span>View Admin Activity Logs.</span>
                     </div>
                 </a>
                 <i class="fa-solid fa-chevron-right"></i>

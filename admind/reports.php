@@ -12,6 +12,87 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
+// Fetch role from DB
+$admin_id = $_SESSION['admin_id'];
+$role_query = $conn->prepare("SELECT role FROM admin WHERE id = ?");
+$role_query->bind_param("i", $admin_id);
+$role_query->execute();
+$role_result = $role_query->get_result()->fetch_assoc();
+$role = $role_result['role'];
+
+
+if ($role !== 'admin' && $role !== 'dev') {
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                background: linear-gradient(135deg, #e9ecef 0%, #f9e1e1 100%);
+                font-family: 'Roboto', sans-serif;
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .denied-container {
+                background: #fff4f4;
+                border: 2px solid #ff9999;
+                border-radius: 15px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                padding: 25px;
+                text-align: center;
+                max-width: 90%;
+                width: 300px;
+            }
+
+            .denied-title {
+                font-size: 30px;
+                font-weight: 600;
+                color: #ff9999;
+                margin-bottom: 15px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .denied-message {
+                font-size: 18px;
+                color: #666;
+                line-height: 1.4;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                background: #ff9999;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                text-decoration: none;
+                display: inline-block;
+                margin-top: 15px;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="denied-container">
+            <h2 class="denied-title">Access Denied</h2>
+            <p class="denied-message">You do not have permissions to view this page.</p>
+            <a href="admindash.php" class="btn">Back</a>
+        </div>
+    </body>
+
+    </html>
+<?php
+    exit();
+}
+
 // Fetch user signup data (updated to created_at)
 $users_today = $conn->query("SELECT COUNT(*) as count FROM users WHERE DATE(created_at) = CURDATE()")->fetch_assoc()['count'];
 $users_7days = $conn->query("SELECT COUNT(*) as count FROM users WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)")->fetch_assoc()['count'];
@@ -115,7 +196,7 @@ if ($dates_result->num_rows > 0) {
         }
 
         .card {
-            background: linear-gradient(90deg,rgb(192, 226, 250) 0%,rgb(247, 221, 252) 100%);
+            background: linear-gradient(90deg, rgb(192, 226, 250) 0%, rgb(247, 221, 252) 100%);
             border: none;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);

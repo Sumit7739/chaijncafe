@@ -134,6 +134,67 @@ $result = $stmt->get_result();
             background-color: #007bff;
             color: white;
         }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Popup Content */
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .popup-content p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+
+        /* Popup Buttons */
+        .popup-btn {
+            padding: 8px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #confirmRestore {
+            background: #007bff;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        #cancelRestore {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        /* Close Button */
+        .close-btn {
+            font-size: 48px;
+            color: #000;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
     </style>
 </head>
 
@@ -171,101 +232,101 @@ $result = $stmt->get_result();
         <?php } ?>
     </div>
     <br>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll(".restore-btn").forEach(button => {
                 button.addEventListener("click", function() {
                     let transactionId = this.getAttribute("data-id");
-
-                    if (confirm("Are you sure you want to restore this transaction?")) {
-                        fetch("restoreTransaction.php", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    transaction_id: transactionId
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    showPopup(data.message, data.beforePoints, data.afterPoints, data.beforeAmount, data.afterAmount);
-                                } else {
-                                    alert("Error: " + data.message);
-                                }
-                            })
-                            .catch(error => console.error("Error:", error));
-                    }
+                    showConfirmPopup(transactionId);
                 });
             });
         });
 
-        function showPopup(message, beforePoints, afterPoints, beforeAmount, afterAmount) {
-            // Remove existing popup if any
+        function showConfirmPopup(transactionId) {
+            // Remove any existing popup
             let existingPopup = document.querySelector(".popup-overlay");
-            if (existingPopup) {
-                existingPopup.remove();
-            }
+            if (existingPopup) existingPopup.remove();
 
-            // Create the popup overlay
+            // Create confirmation popup
             const popup = document.createElement("div");
             popup.classList.add("popup-overlay");
             popup.innerHTML = `
-        <div class="popup-content">
-            <span class="close-btn" style="font-size: 48px; color: #000; cursor: pointer; z-index: 9999">&times;</span>
-            <h2>${message}</h2>
-            <p><strong>Total Points (Before):</strong> ${beforePoints} pts</p>
-            <p><strong>Current Points (After):</strong> ${afterPoints} pts</p>
-            <p><strong>Total Amount Spent (Before):</strong> ₹${beforeAmount}</p>
-            <p><strong>Current Amount Spent (After):</strong> ₹${afterAmount}</p>
-        </div>
-    `;
-
-            // Append the popup to the body
+                <div class="popup-content">
+                    <p>Are you sure you want to restore this transaction?</p>
+                    <button id="confirmRestore" class="popup-btn">Yes</button>
+                    <br>
+                    <button id="cancelRestore" class="popup-btn">No</button>
+                </div>
+            `;
             document.body.appendChild(popup);
 
-            // Style the popup overlay
-            popup.style.position = "fixed";
-            popup.style.top = "0";
-            popup.style.left = "0";
-            popup.style.width = "100%";
-            popup.style.height = "100%";
-            popup.style.backgroundColor = "rgba(0,0,0,0.7)";
-            popup.style.display = "flex";
-            popup.style.justifyContent = "center";
-            popup.style.alignItems = "center";
-            popup.style.zIndex = "1000";
-
-            // Style the popup content
-            let popupContent = popup.querySelector(".popup-content");
-            popupContent.style.background = "white";
-            popupContent.style.padding = "20px";
-            popupContent.style.borderRadius = "8px";
-            popupContent.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.2)";
-            popupContent.style.textAlign = "center";
-            popupContent.style.width = "400px";
-            popupContent.style.maxWidth = "90%";
-            popupContent.style.marginTop = "20px";
-
-
-            // Add spacing between <p> elements
-            popupContent.querySelectorAll("p").forEach(p => {
-                p.style.marginTop = "15px";
-                p.style.marginBottom = "15px"; // Adds spacing between text lines
-                p.style.fontSize = "16px"; // Adjust font size for readability
+            // Event listeners for buttons
+            document.getElementById("confirmRestore").addEventListener("click", function() {
+                restoreTransaction(transactionId);
+                popup.remove();
             });
+
+            document.getElementById("cancelRestore").addEventListener("click", function() {
+                popup.remove();
+            });
+        }
+
+        function restoreTransaction(transactionId) {
+            fetch("restoreTransaction.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        transaction_id: transactionId
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        showPopup(data.message, data.beforePoints, data.afterPoints, data.beforeAmount, data.afterAmount);
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while restoring the transaction.");
+                });
+        }
+
+        function showPopup(message, beforePoints, afterPoints, beforeAmount, afterAmount) {
+            // Remove existing popup if any
+            let existingPopup = document.querySelector(".popup-overlay");
+            if (existingPopup) existingPopup.remove();
+
+            // Create the success popup
+            const popup = document.createElement("div");
+            popup.classList.add("popup-overlay");
+            popup.innerHTML = `
+                <div class="popup-content">
+                    <span class="close-btn">×</span>
+                    <h2>${message}</h2>
+                    <p><strong>Total Points (Before):</strong> ${beforePoints} pts</p>
+                    <p><strong>Current Points (After):</strong> ${afterPoints} pts</p>
+                    <p><strong>Total Amount Spent (Before):</strong> ₹${beforeAmount}</p>
+                    <p><strong>Current Amount Spent (After):</strong> ₹${afterAmount}</p>
+                </div>
+            `;
+            document.body.appendChild(popup);
 
             // Close button functionality
             popup.querySelector(".close-btn").addEventListener("click", function() {
                 popup.remove();
-                location.reload(); // Reload the page after closing the popup
+                location.reload(); // Reload the page after closing
             });
         }
     </script>
-
-
 </body>
 
 </html>

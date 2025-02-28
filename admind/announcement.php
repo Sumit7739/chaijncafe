@@ -17,7 +17,7 @@ $role_result = $role_query->get_result()->fetch_assoc();
 $role = $role_result['role'];
 
 // Access control (only admin role)
-if ($role !== 'admin') {
+if ($role !== 'admin' && $role !== 'dev') {
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -79,7 +79,7 @@ if ($role !== 'admin') {
     <body>
         <div class="denied-container">
             <h2 class="denied-title">Access Denied</h2>
-            <p class="denied-message">Only admins can access this page.</p>
+            <p class="denied-message">You don’t have permission to view this page.</p>
             <a href="admindash.php" class="btn">Back</a>
         </div>
     </body>
