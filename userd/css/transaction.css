@@ -1,0 +1,285 @@
+  /* Base Styles */
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4f8;
+      /* Pastel blue-gray */
+      min-height: 100vh;
+      color: #333;
+      padding: 10px;
+      padding-bottom: 80px;
+      /* Space for fixed navbar */
+  }
+
+  /* Header */
+  .nav a {
+      top: 20px;
+      font-size: 24px;
+      color: #007bff;
+      /* Blue accent */
+      text-decoration: none;
+      transition: color 0.2s ease;
+  }
+
+  .nav a:hover {
+      color: #0056b3;
+      /* Darker blue */
+  }
+
+  /* Title */
+  h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgb(204, 226, 248);
+      /* Lighter pastel blue */
+      border-radius: 10px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 0.5s ease;
+  }
+
+  /* Transaction List */
+  .transaction-list {
+      max-width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+  }
+
+  .transaction-header {
+      display: flex;
+      background: #d9e8fb;
+      /* Pastel blue header */
+      padding: 15px;
+      font-weight: 600;
+      font-size: 18px;
+      color: #333;
+      border-bottom: 1px solid #e0e0e0;
+  }
+
+  .transaction-row {
+      display: flex;
+      padding: 15px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s ease, transform 0.2s ease;
+      animation: slideInUp 0.3s ease forwards;
+  }
+
+  .transaction-row:hover {
+      background: #f9fbfc;
+      /* Subtle hover */
+      transform: translateY(-2px);
+  }
+
+  .transaction-row:last-child {
+      border-bottom: none;
+  }
+
+  .points,
+  .amount,
+  .date {
+      flex: 1;
+      font-size: 16px;
+      color: #555;
+  }
+
+  .points {
+      color: #28a745;
+      /* Green for points */
+      font-weight: 500;
+  }
+
+  .amount {
+      text-align: center;
+  }
+
+  .date {
+      text-align: right;
+      opacity: 0.8;
+  }
+
+  /* Pagination */
+  .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 25px;
+      background-color: transparent;
+  }
+
+  .pagination a {
+      background: #e6f0fa;
+      /* Pastel blue */
+      padding: 8px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: #007bff;
+      font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  }
+
+  .pagination a.active {
+      background: #007bff;
+      color: #fff;
+  }
+
+  .pagination a:hover:not(.active) {
+      background: #cce0f5;
+      /* Slightly darker pastel blue */
+      transform: translateY(-2px);
+  }
+
+  /* Navbar */
+  .sec3 {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      /* background: #fff; */
+      padding: 10px 0;
+      /* box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1); */
+      z-index: 1000;
+      /* Ensure it stays above content */
+  }
+
+  .navbar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+  }
+
+  .navbar a {
+      color: #666;
+      font-size: 22px;
+      position: relative;
+      transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  .navbar a.active {
+      color: #007bff;
+      transform: scale(1.2);
+  }
+
+  .navbar a:hover {
+      color: #007bff;
+      transform: scale(1.1);
+  }
+
+  .bell-wrapper {
+      position: relative;
+  }
+
+  .unread-indicator {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #dc3545;
+      /* Red dot/number */
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 5px;
+      border-radius: 10px;
+      min-width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      animation: pulse 1.5s infinite;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+      }
+
+      to {
+          opacity: 1;
+      }
+  }
+
+  @keyframes slideInUp {
+      from {
+          opacity: 0;
+          transform: translateY(10px);
+      }
+
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  @keyframes pulse {
+      0% {
+          transform: scale(1);
+      }
+
+      50% {
+          transform: scale(1.1);
+      }
+
+      100% {
+          transform: scale(1);
+      }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+      body {
+          padding-bottom: 70px;
+          /* Adjust for smaller navbar */
+      }
+
+      .nav a {
+          font-size: 20px;
+      }
+
+      h2 {
+          font-size: 20px;
+          margin-top: 25px;
+      }
+
+      .transaction-header,
+      .transaction-row {
+          padding: 10px;
+          font-size: 14px;
+      }
+
+      .points,
+      .amount,
+      .date {
+          font-size: 14px;
+      }
+
+      .pagination a {
+          padding: 6px 12px;
+          font-size: 12px;
+      }
+
+      .navbar a {
+          font-size: 18px;
+      }
+
+      .unread-indicator {
+          top: -3px;
+          right: -3px;
+          min-width: 14px;
+          height: 14px;
+          font-size: 8px;
+          padding: 2px 4px;
+      }
+  }

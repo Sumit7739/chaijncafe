@@ -1,0 +1,348 @@
+ /* Base Styles */
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ body {
+     font-family: 'Poppins', sans-serif;
+     background: #fff7e6;
+     /* Pastel yellow background */
+     min-height: 100vh;
+     color: #333;
+     padding: 20px;
+     padding-bottom: 80px;
+     /* Space for fixed navbar */
+ }
+
+ .sec1 {
+     margin-bottom: 100px;
+ }
+
+ /* Header */
+ .nav a {
+     top: 20px;
+     font-size: 24px;
+     color: #e07b39;
+     /* Pastel orange accent */
+     text-decoration: none;
+     transition: color 0.2s ease;
+ }
+
+ .nav a:hover {
+     color: #c25e1f;
+     /* Darker orange */
+ }
+
+ /* Title */
+ h2 {
+     font-size: 24px;
+     font-weight: 600;
+     color: #666;
+     text-align: center;
+     margin-top: 20px;
+     margin-bottom: 20px;
+     padding: 10px;
+     background: #fffacd;
+     /* Lighter pastel yellow */
+     border-radius: 10px;
+     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+     animation: fadeIn 0.5s ease;
+ }
+
+ /* Filter Buttons */
+ .filter-buttons {
+     display: flex;
+     justify-content: center;
+     gap: 12px;
+     margin-bottom: 25px;
+ }
+
+ .filter-btn {
+     background: #fffacd;
+     /* Pastel yellow */
+     border: none;
+     padding: 10px 20px;
+     border-radius: 25px;
+     font-size: 14px;
+     color: #666;
+     cursor: pointer;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+ }
+
+ .filter-btn.active,
+ .filter-btn:hover {
+     background: #ffd700;
+     /* Brighter pastel yellow */
+     color: #333;
+     transform: translateY(-2px);
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+ }
+
+ /* Notification List */
+ .notification-list,
+ .announcement-list {
+     display: flex;
+     flex-direction: column;
+     gap: 15px;
+     max-width: 700px;
+     margin: 0 auto 25px auto;
+ }
+
+ .notification-card,
+ .announcement-card {
+     background: #fff;
+     border-radius: 15px;
+     padding: 15px;
+     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     animation: slideInLeft 0.3s ease forwards;
+ }
+
+ .notification-card.earned {
+     background: #d4edda;
+     /* Pastel green */
+     color: #155724;
+     /* Darker green text */
+ }
+
+ .notification-card.redeemed {
+     background: #f8d7da;
+     /* Pastel red */
+     color: #721c24;
+     /* Darker red text */
+ }
+
+ .announcement-card {
+     background: #ffdbcc;
+     /* Pastel peach */
+     color: #e07b39;
+     /* Darker peach text */
+ }
+
+ .notification-card:hover,
+ .announcement-card:hover {
+     transform: scale(1.02);
+     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+ }
+
+ .notification-content,
+ .announcement-content {
+     flex: 1;
+ }
+
+ .notification-content p,
+ .announcement-content p {
+     font-size: 14px;
+     margin: 0;
+     line-height: 20px;
+ }
+
+ .announcement-content h3 {
+     font-size: 14px;
+     font-weight: 500;
+     margin-bottom: 5px;
+ }
+
+ .notification-date,
+ .announcement-date {
+     font-size: 12px;
+     opacity: 0.8;
+     text-align: right;
+     padding-left: 10px;
+ }
+
+ /* Navbar */
+ .sec3 {
+     position: fixed;
+     bottom: 0;
+     width: 100%;
+     /* background: #fff; */
+     padding: 10px 0;
+     /* box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1); */
+     z-index: 1000;
+     /* Ensure it stays above content */
+ }
+
+ .navbar {
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+ }
+
+ .navbar a {
+     color: #666;
+     font-size: 22px;
+     position: relative;
+     transition: color 0.3s ease, transform 0.3s ease;
+ }
+
+ .navbar a.active {
+     color: #007bff;
+     transform: scale(1.2);
+ }
+
+ .navbar a:hover {
+     color: #007bff;
+     transform: scale(1.1);
+ }
+
+ .bell-wrapper {
+     position: relative;
+ }
+
+ .unread-indicator {
+     position: absolute;
+     top: -5px;
+     right: -5px;
+     background: #dc3545;
+     /* Red dot/number */
+     color: #fff;
+     font-size: 10px;
+     font-weight: 600;
+     padding: 2px 5px;
+     border-radius: 10px;
+     min-width: 16px;
+     height: 16px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+     animation: pulse 1.5s infinite;
+ }
+
+ /* Pagination */
+ .pagination {
+     display: flex;
+     justify-content: center;
+     gap: 12px;
+     margin-top: 25px;
+     background-color: transparent;
+     /* Ensure no overlap */
+ }
+
+ .pagination a {
+     background: #fffacd;
+     /* Pastel yellow */
+     padding: 8px 14px;
+     border-radius: 20px;
+     text-decoration: none;
+     color: #666;
+     font-size: 14px;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+     transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+ }
+
+ .pagination a.active {
+     background: #ffd700;
+     color: #333;
+ }
+
+ .pagination a:hover:not(.active) {
+     background: #fff3b0;
+     /* Slightly darker pastel yellow */
+     transform: translateY(-2px);
+ }
+
+ /* Animations */
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+     }
+
+     to {
+         opacity: 1;
+     }
+ }
+
+ @keyframes slideInLeft {
+     from {
+         opacity: 0;
+         transform: translateX(-10px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateX(0);
+     }
+ }
+
+ @keyframes pulse {
+     0% {
+         transform: scale(1);
+     }
+
+     50% {
+         transform: scale(1.1);
+     }
+
+     100% {
+         transform: scale(1);
+     }
+ }
+
+ /* Responsive */
+ @media (max-width: 480px) {
+     body {
+         padding-bottom: 70px;
+         /* Adjust for smaller navbar */
+     }
+
+     h2 {
+         font-size: 20px;
+         padding: 8px;
+     }
+
+     .filter-btn {
+         padding: 6px 15px;
+         font-size: 13px;
+     }
+
+     .notification-card,
+     .announcement-card {
+         padding: 10px;
+         flex-direction: column;
+         align-items: flex-start;
+     }
+
+     .notification-content p,
+     .announcement-content p {
+         font-size: 14px;
+         line-height: 18px;
+     }
+
+     .announcement-content h3 {
+         font-size: 14px;
+     }
+
+     .notification-date,
+     .announcement-date {
+         font-size: 10px;
+         text-align: left;
+         padding-left: 0;
+         margin-top: 5px;
+     }
+
+     .pagination a {
+         padding: 6px 12px;
+         font-size: 13px;
+     }
+
+     .navbar a {
+         font-size: 18px;
+     }
+
+     .unread-indicator {
+         top: -3px;
+         right: -3px;
+         min-width: 14px;
+         height: 14px;
+         font-size: 8px;
+         padding: 2px 4px;
+     }
+ }

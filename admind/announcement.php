@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['delete_id'])) {
     $stmt = $conn->prepare("INSERT INTO announcements (admin_id, title, message, priority) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("isss", $admin_id, $title, $message, $priority);
     $stmt->execute();
-    header("Location: announcements.php?success=1");
+    header("Location: announcement.php?success=1");
     exit();
 }
 

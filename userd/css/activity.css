@@ -1,0 +1,191 @@
+ /* Base Styles */
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ body {
+     font-family: 'Poppins', sans-serif;
+     background: #f4f7fa;
+     min-height: 100vh;
+     color: #333;
+     padding: 10px;
+ }
+
+ .nav a {
+     top: 20px;
+ }
+
+ h2 {
+     font-size: 24px;
+     font-weight: 600;
+     color: #666;
+     text-align: center;
+     margin-top: 30px;
+     margin-bottom: 10px;
+     padding: 10px;
+     background: rgb(205, 237, 255);
+     /* Lighter pastel yellow */
+     border-radius: 10px;
+     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+     animation: fadeIn 0.5s ease;
+ }
+
+ /* Filter Buttons */
+ .filter-buttons {
+     display: flex;
+     justify-content: center;
+     gap: 10px;
+     margin-top: 0px;
+     margin-bottom: 20px;
+ }
+
+ .filter-btn {
+     background: #fff;
+     border: 1px solid #ddd;
+     padding: 8px 15px;
+     border-radius: 20px;
+     font-size: 14px;
+     color: #666;
+     cursor: pointer;
+     transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+     box-shadow: none;
+ }
+
+ .filter-btn.active,
+ .filter-btn:hover {
+     background: #007bff;
+     color: #fff;
+     transform: scale(1.05);
+     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+ }
+
+ .cont {
+     width: 100%;
+     margin: 0 auto;
+     padding: 20px;
+     border-radius: 12px;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+     overflow: hidden;
+     background: linear-gradient(90deg, #b8e1ff 0%, #f4d4fa 100%);
+ }
+
+ /* Activity List */
+ .activity-list {
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+     max-width: 600px;
+     margin: 0 auto;
+ }
+
+ .activity-card {
+     border-radius: 12px;
+     padding: 15px;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+     font-size: 14px;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     animation: slideInUp 0.3s ease forwards;
+ }
+
+ .activity-card.earned {
+     background: #e6ffe6;
+     /* Light green */
+     color: #28a745;
+     /* Darker green text */
+ }
+
+ .activity-card.redeemed {
+     background: #ffe6e6;
+     /* Light red */
+     color: #dc3545;
+     /* Darker red text */
+ }
+
+ .activity-card:hover {
+     transform: translateY(-3px);
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+ }
+
+ .activity-card .date {
+     font-size: 12px;
+     opacity: 0.8;
+     margin-top: 5px;
+ }
+
+ /* Pagination */
+ .pagination {
+     display: flex;
+     justify-content: center;
+     gap: 10px;
+     margin-top: 20px;
+ }
+
+ .pagination a {
+     background: #fff;
+     padding: 8px 12px;
+     border-radius: 8px;
+     text-decoration: none;
+     color: #007bff;
+     font-size: 14px;
+     transition: background 0.3s ease, color 0.3s ease;
+ }
+
+ .pagination a.active {
+     background: #007bff;
+     color: #fff;
+ }
+
+ .pagination a:hover:not(.active) {
+     background: #f1f5f9;
+ }
+
+ /* Animations */
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+     }
+
+     to {
+         opacity: 1;
+     }
+ }
+
+ @keyframes slideInUp {
+     from {
+         opacity: 0;
+         transform: translateY(10px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ /* Responsive */
+ @media (max-width: 480px) {
+     h2 {
+         font-size: 20px;
+     }
+
+     .filter-btn {
+         padding: 6px 12px;
+         font-size: 12px;
+     }
+
+     .activity-card {
+         padding: 10px;
+         font-size: 14px;
+     }
+
+     .activity-card .date {
+         font-size: 12px;
+     }
+
+     .pagination a {
+         padding: 6px 10px;
+         font-size: 12px;
+     }
+ }
