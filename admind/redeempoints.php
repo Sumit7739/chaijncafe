@@ -35,11 +35,19 @@ if (isset($_GET['user_id'])) {
         exit();
     }
 
+    // Fetch total points redeemed for the user
+    $stmt = $conn->prepare("SELECT SUM(points_redeemed) AS total_redeemed FROM redeem WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $redeemSumResult = $stmt->get_result();
+    $redeemSum = $redeemSumResult->fetch_assoc();
+    $totalPointsRedeemed = $redeemSum['total_redeemed'] ?? 0; // Default to 0 if no redemptions
+
     // Fetch redemption history for the user (latest first)
     $stmt = $conn->prepare("SELECT points_redeemed, DATE_FORMAT(date_redeemed, '%d-%m-%y') AS formatted_date 
-     FROM redeem 
-     WHERE user_id = ? 
-     ORDER BY date_redeemed DESC");
+                            FROM redeem 
+                            WHERE user_id = ? 
+                            ORDER BY date_redeemed DESC");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $redeemResult = $stmt->get_result();
@@ -90,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -147,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
             <a href="admindash.php"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
     </header>
-
+<br>
     <!-- Overlay Popup -->
     <div class="overlay" id="overlay">
         <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
@@ -181,10 +188,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
                 </div>
 
                 <div class="stats stats2">
-                    <div>Total Amount Spent: ₹<?php echo htmlspecialchars($user['amount_spent']); ?></div>
+                    <div>Total Points Redeemed: <?php echo htmlspecialchars($totalPointsRedeemed); ?> pts</div>
                     <div>Joined on: <?php echo date("d-m-Y", strtotime($user['created_at'])); ?></div>
                 </div>
-                <!-- <button onclick="window.location.href = 'admindash.php';" style="padding: 5px;">Back</button> -->
             </div>
 
             <div class="box">
@@ -212,6 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
                 <div class="no-transactions">No redemptions found.</div>
             <?php endif; ?>
         </div>
+        <br>
     <?php endif; ?>
 
     <script src="../js/profile.js"></script>

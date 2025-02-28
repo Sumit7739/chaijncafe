@@ -93,20 +93,8 @@ if ($role !== 'admin' && $role !== 'dev') {
 date_default_timezone_set('Asia/Kolkata');
 
 // Fetch admins
-$admins = $conn->query("SELECT id, name, phone, access, role FROM admin ORDER BY role, name");
+$admins = $conn->query("SELECT id, name, phone, access, role FROM admin ORDER BY id");
 
-
-// Fetch activity logs
-$activity_logs = $conn->query("SELECT al.admin_id, al.action, al.table_name, al.record_id, al.message, al.created_at, a.name
-                                FROM audit_logs al
-                                JOIN admin a ON al.admin_id = a.id
-                                ORDER BY al.created_at DESC");
-
-// Fetch login logs
-$login_logs = $conn->query("SELECT ll.admin_id, ll.message, ll.login_time, a.name
-                            FROM login_log ll
-                            JOIN admin a ON ll.admin_id = a.id
-                            ORDER BY ll.login_time DESC");
 
 // Fetch conversion rules
 $rules = $conn->query("SELECT * FROM conversion_rules ORDER BY min_amount ASC");
@@ -216,8 +204,8 @@ if (isset($_POST['update_rule'])) {
 
         .rule-form label {
             font-size: 12px;
-            color: #666;
-            margin-bottom: 2px;
+            color: #444;
+            margin-bottom: 5px;
         }
 
         .rule-form input {
@@ -233,11 +221,12 @@ if (isset($_POST['update_rule'])) {
         .rule-form button {
             padding: 8px 12px;
             font-size: 12px;
-            background: rgb(177, 255, 208);
+            background: rgb(124, 255, 177);
             border: none;
             border-radius: 5px;
             color: #000;
             align-self: flex-end;
+            width: 100%;
         }
 
         .log-item {
@@ -249,7 +238,7 @@ if (isset($_POST['update_rule'])) {
 
         small {
             font-size: 11px;
-            color: #888;
+            color: #555;
         }
 
         header {
@@ -306,9 +295,6 @@ if (isset($_POST['update_rule'])) {
                 <?php } ?>
             </div>
         </div>
-
-       
-
         <!-- Conversion Rules (Moved to Bottom, Card-Based) -->
         <div class="card">
             <div class="card-header">

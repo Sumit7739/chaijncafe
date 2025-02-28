@@ -40,7 +40,7 @@ if (isset($_GET['user_id'])) {
     $stmt = $conn->prepare("SELECT amount_paid, points_given, DATE_FORMAT(transaction_date, '%d-%m-%y') AS formatted_date 
      FROM transactions 
      WHERE user_id = ? 
-     ORDER BY transaction_date DESC");
+     ORDER BY id DESC");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
 
             // Update user points and amount spent
             $newPointsBalance = $user['points_balance'] + $pointsEarned;
-            $newTotalPoints = $user['total_points'] + $pointsEarned; // Keep total_points immutable
+            $newTotalPoints = $user['total_points'] + $pointsEarned;
             $newAmountSpent = $user['amount_spent'] + $amount;
 
             $stmt = $conn->prepare("UPDATE users SET points_balance = ?, total_points = ?, amount_spent = ? WHERE user_id = ?");
@@ -197,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
                 </div>
 
                 <div class="stats stats2">
-                    <div>Total Amount Spent: ₹<?php echo htmlspecialchars($user['amount_spent']); ?></div>
+                    <!-- <div>Total Amount Spent: ₹<?php echo htmlspecialchars($user['amount_spent']); ?></div> -->
                     <div>Joined on: <?php echo date("d-m-Y", strtotime($user['created_at'])); ?></div>
                 </div>
             </div>

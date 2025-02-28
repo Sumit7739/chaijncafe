@@ -178,6 +178,15 @@ $usersJson = json_encode($users);
                 <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="menu-item">
+                <a href="redeemhistory.php">
+                    <div class="menu-text">
+                        <p><i class="fa-solid fa-coins"></i> Redeem History</p>
+                        <span>View Redeem History.</span>
+                    </div>
+                </a>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="menu-item">
                 <a href="referraltracking.php">
                     <div class="menu-text">
                         <p><i class="fa-solid fa-users"></i> Referral & Rewards Control</p>

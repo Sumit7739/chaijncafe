@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     require('../config.php');
 
-    // Query to check email (assuming admins table uses email only for now)
-    $sql = "SELECT id, password FROM admin WHERE email = ?";
+    // Query to fetch admin details including name
+    $sql = "SELECT id, name, password FROM admin WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -26,7 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verify the password
         if (password_verify($enteredPassword, $row['password'])) {
             session_regenerate_id(true);
-            $_SESSION['admin_id'] = $row['id']; // Fixed to use 'id' from DB
+            $_SESSION['admin_id'] = $row['id'];
+
+            // Insert login log with admin name
+            $logSql = "INSERT INTO login_log (admin_id, message, login_time) VALUES (?, ?, NOW())";
+            $logStmt = $conn->prepare($logSql);
+            $logMessage = "Admin " . $row['name'] . " logged in successfully";
+            $logStmt->bind_param("is", $row['id'], $logMessage);
+            $logStmt->execute();
+            $logStmt->close();
 
             header("Location: adminwelcome.php");
             exit();

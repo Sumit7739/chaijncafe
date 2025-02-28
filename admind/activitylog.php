@@ -296,8 +296,9 @@ $login_logs = $conn->query("SELECT a.name, ll.message, ll.login_time
                 <?php if ($login_logs->num_rows > 0) {
                     while ($log = $login_logs->fetch_assoc()) { ?>
                         <div class="log-item">
-                        <strong><?= htmlspecialchars($log['name']) ?></strong><br>
-                            <small><?= htmlspecialchars($log['message']) ?> | <?= $log['login_time'] ?></small>
+                            <strong><?= htmlspecialchars($log['name']) ?></strong><br>
+                            <small><?= htmlspecialchars($log['message']) ?></small><br>
+                            <small><?= htmlspecialchars($log['login_time']) ?></small>
                         </div>
                     <?php }
                 } else { ?>

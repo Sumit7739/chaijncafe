@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require '../config.php';
 
 // Check if admin is logged in
@@ -23,11 +28,8 @@ if ($user_id <= 0) {
 }
 
 // Fetch user details
-$user_stmt = $conn->prepare("SELECT user_id, name, phone, email, total_points, created_at, 
-    (SELECT SUM(points_given) - IFNULL((SELECT SUM(points_redeemed) FROM redeem WHERE user_id = ?), 0) FROM transactions WHERE user_id = ?) as points_balance,
-    (SELECT SUM(amount_paid) FROM transactions WHERE user_id = ?) as amount_spent 
-    FROM users WHERE user_id = ?");
-$user_stmt->bind_param("iiii", $user_id, $user_id, $user_id, $user_id);
+$user_stmt = $conn->prepare("SELECT user_id, name, phone, email, total_points, points_balance, amount_spent, created_at FROM users WHERE user_id = ?");
+$user_stmt->bind_param("i", $user_id);
 $user_stmt->execute();
 $user = $user_stmt->get_result()->fetch_assoc();
 if (!$user) {
@@ -250,8 +252,8 @@ $redeems = $redeem_stmt->get_result();
                         <div>Email: <?php echo htmlspecialchars($user['email']); ?></div>
                     </div>
                     <div class="stats-container">
-                        <div class="stats">Total Points: <span><?php echo htmlspecialchars($user['total_points'] ? : 0); ?></span></div>
-                        <div class="stats">Current Pts: <span><?php echo htmlspecialchars($user['points_balance'] ? : 0 ) ; ?></span></div>
+                        <div class="stats">Total Points: <span><?php echo htmlspecialchars($user['total_points'] ?: 0); ?></span></div>
+                        <div class="stats">Current Pts: <span><?php echo htmlspecialchars($user['points_balance'] ?: 0); ?></span></div>
                         <?php if ($role !== 'manager') { ?>
                             <div class="stats2">Total Spent: ₹<span><?php echo htmlspecialchars($user['amount_spent']); ?></span></div>
                         <?php } ?>

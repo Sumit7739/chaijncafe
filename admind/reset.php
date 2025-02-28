@@ -265,6 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_reset'])) {
     $conn->query("TRUNCATE TABLE announcements");
     $conn->query("TRUNCATE TABLE audit_logs");
     $conn->query("TRUNCATE TABLE login_log");
+    $conn->query("TRUNCATE TABLE notifications");
     header("Location: reset.php?reset=1");
     exit();
 }
@@ -387,6 +388,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_reset'])) {
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
+            width: 100px;
         }
 
         .btn-confirm {
