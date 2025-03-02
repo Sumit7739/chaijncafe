@@ -80,6 +80,10 @@ $usersJson = json_encode($users);
             /* font-weight: bold; */
             font-size: 16px;
         }
+
+        .menu-list a {
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -98,7 +102,7 @@ $usersJson = json_encode($users);
         <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
         <div class="overlay-content">
             <ul class="menu-list">
-                <li>About <i class="fa-solid fa-chevron-right"></i></li>
+                <!-- <li>About <i class="fa-solid fa-chevron-right"></i></li> -->
                 <!-- <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li> -->
                 <!-- <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li> -->
                 <a href="terms.html">
@@ -107,7 +111,7 @@ $usersJson = json_encode($users);
                 <!-- <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li> -->
                 <!-- <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li> -->
             </ul>
-            <a href="logout.php" class="logout-btn">Log Out</a>
+            <a href="logout.php" class="logout-btn" style="position:absolute; bottom: 0; width:100%">Log Out</a>
         </div>
     </div>
 

@@ -136,7 +136,11 @@ $tracking = $conn->query("SELECT rt.id, rt.referrer_id, u1.name AS referrer_name
             max-width: 100%;
             padding: 0;
             margin: 0;
-            margin-top: 40px;
+            margin-top: 50px;
+        }
+
+        .container h2{
+            color: red;
         }
 
         .title {
@@ -273,6 +277,7 @@ $tracking = $conn->query("SELECT rt.id, rt.referrer_id, u1.name AS referrer_name
         </div>
     </header>
     <div class="container">
+        <h2>Not Active</h2>
         <!-- Referral Rules -->
         <div class="card">
             <div class="card-header">

@@ -116,6 +116,11 @@ $conn->close();
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .menu-list a{
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -134,10 +139,14 @@ $conn->close();
         <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
         <div class="overlay-content">
             <ul class="menu-list">
-                <li>About <i class="fa-solid fa-chevron-right"></i></li>
+                <a href="about.php">
+                    <li>About <i class="fa-solid fa-chevron-right"></i></li>
+                </a>
                 <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li>
                 <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
-                <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                <a href="term.php">
+                    <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
+                </a>
                 <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li>
                 <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li>
             </ul>

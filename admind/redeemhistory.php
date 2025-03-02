@@ -64,7 +64,7 @@ $redeemResult = $stmt->get_result();
             /* margin: 20px 0; */
             margin-top: 40px;
             text-align: center;
-            width: 90%;
+            width: 96%;
         }
 
         .total-redeemed-card h3 {
@@ -75,7 +75,7 @@ $redeemResult = $stmt->get_result();
 
         .total-redeemed-card span {
             margin: 10px 0 0;
-            margin-left: 20px;
+            margin-left: 0px;
             font-size: 18px;
             font-weight: bold;
             color: #ff4d4d;
