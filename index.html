@@ -11,12 +11,12 @@
         .cont{
             margin: 0 auto;
             position: absolute;
-            top: 35%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #f1f1f1;
+            background-color: #fcdfdf;
             padding: 10px 40px;
-            width: 80%;
+            width: 90%;
             text-align: center;
             border-radius: 10px;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
@@ -31,31 +31,38 @@
             cursor: pointer;
             border-radius: 5px;
             margin-top: 20px;
-            /* max-width: 250px; */
+            margin-bottom: 20px;
+            max-width: 250px;
+        }
+
+        .cont p{
+            font-size: 20px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container containerr">
+    <div class="container">
         <div class="logo">
             <img src="image/logo1.png" alt="LOGO">
         </div>
-        <!-- <p class="subtitle">Easily track your rewards, scan your card, and enjoy exclusive offers—all in one place. Sip,
-            scan, and earn with every visit!</p>
-        <button class="sign-in" onclick="window.location.href='login.php';">Sign In</button>
-        <button class="create-account" onclick="window.location.href='signup.php';"">Create account</button> -->
-        <p class="terms"><a href="terms.html" class="terms">Terms and Conditions</a></p>
-    </div>
 
-    <div class="cont">
-        <h2 class="download">Download our app</h2>
-        <br>
-        <p>Currently available for Android</p>
+        <p class="subtitle">Easily track your rewards, and enjoy exclusive offers—all in one place.</p>
+        </div>
+        
+        <div class="cont">
+            <h2 class="download">Download our app</h2>
+            <br>
+            <p>Available for Android Only</p>
             <button onclick="window.location.href='ChaiJunction.apk';"><i class="fa-brands fa-android"></i> Download</button>
-    </div>
-    <p class="footer">T&C © 2025 <a href="admind/adminLogin.php">Chai Junction</a>. All rights reserved.<br>Created by Sumit Srivastava<br>version -
-        3.1.1</p>
+            <p>Note:- For IOS user, use the web version.</p>
+            <button onclick="window.location.href='https://sumit11.serv00.net/chaijncafe';"><i class="fa-solid fa-globe"></i> Web Version</button>
+        </div>
+       <div class="footer">
+        <p><a href="terms.html" class="terms">Terms and Conditions</a></p><br>
+        <p>T&C © 2025 Chai Junction</a>. All rights reserved.<br>Created by Sumit Srivastava<br>version -
+            3.2.1.4</p>
+       </div>
 </body>
 
 </html>
