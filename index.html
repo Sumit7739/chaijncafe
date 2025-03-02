@@ -6,6 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chai Junction - Login</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .cont{
+            margin: 0 auto;
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f1f1f1;
+            padding: 10px 40px;
+            width: 80%;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .cont button{
+            background-color: #FFA500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            /* max-width: 250px; */
+        }
+    </style>
 </head>
 
 <body>
@@ -18,6 +45,13 @@
         <button class="sign-in" onclick="window.location.href='login.php';">Sign In</button>
         <button class="create-account" onclick="window.location.href='signup.php';"">Create account</button>
         <p class="terms"><a href="terms.html" class="terms">Terms and Conditions</a></p>
+    </div>
+
+    <div class="cont">
+        <h2 class="download">Download our app</h2>
+        <br>
+        <p>Currently available for Android</p>
+            <button onclick="window.location.href='ChaiJunction.apk';"><i class="fa-brands fa-android"></i> Download</button>
     </div>
     <p class="footer">T&C © 2025 <a href="admind/adminLogin.php">Chai Junction</a>. All rights reserved.<br>Created by Sumit Srivastava<br>version -
         3.1.1</p>
