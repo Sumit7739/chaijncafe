@@ -8,25 +8,22 @@ error_reporting(E_ALL);
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $phone = $_POST['phone'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? ''; // Fixed key name with fallback
+    require('../config.php');
+
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
 
     if (!isset($_POST['terms'])) {
         $error_message = "You must agree to the Terms and Conditions.";
-    } elseif ($confirm_password === '') {
-        $error_message = "Please confirm your password.";
     } elseif ($password !== $confirm_password) {
         $error_message = "Passwords do not match.";
+    } elseif (strlen($password) < 6) {
+        $error_message = "Password must be at least 6 characters long.";
     } else {
-        include('../config.php');
-
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $role = 'manager'; // Default role as per your ENUM
-
-        // Check if the user exists
+        // Check if admin exists
         $sql = "SELECT * FROM admin WHERE email = ? OR phone = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $email, $phone);
@@ -36,24 +33,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result->num_rows > 0) {
             $error_message = "User already exists with this email or phone number.";
         } else {
-            // Insert new admin
+            // Hash password correctly
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $role = 'manager'; // Default role
+
+            // Insert admin
             $sql = "INSERT INTO admin (name, email, phone, password, role) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sssss", $name, $email, $phone, $hashed_password, $role);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                $_SESSION['user_id'] = $stmt->insert_id;
+            if ($stmt->execute()) {
+                $_SESSION['admin_id'] = $stmt->insert_id;
                 header('Location: success.html');
                 exit();
             } else {
-                $error_message = "Failed to create admin: " . $conn->error;
+                $error_message = "Failed to create admin.";
             }
         }
 
         $stmt->close();
-        $conn->close();
     }
+    $conn->close();
 }
 ?>
 

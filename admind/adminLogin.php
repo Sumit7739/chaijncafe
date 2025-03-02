@@ -8,12 +8,11 @@ error_reporting(E_ALL);
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $enteredPassword = $_POST['password'];
-
     require('../config.php');
 
-    // Query to fetch admin details including name
+    $email = trim($_POST['email']);
+    $enteredPassword = trim($_POST['password']);
+
     $sql = "SELECT id, name, password FROM admin WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
@@ -22,13 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        $storedHash = $row['password'];
 
-        // Verify the password
-        if (password_verify($enteredPassword, $row['password'])) {
+        if (password_verify($enteredPassword, $storedHash)) {
             session_regenerate_id(true);
             $_SESSION['admin_id'] = $row['id'];
 
-            // Insert login log with admin name
             $logSql = "INSERT INTO login_log (admin_id, message, login_time) VALUES (?, ?, NOW())";
             $logStmt = $conn->prepare($logSql);
             $logMessage = "Admin " . $row['name'] . " logged in successfully";
@@ -39,16 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: adminwelcome.php");
             exit();
         } else {
-            $error_message = "Invalid password";
+            $error_message = "Incorrect password.";
         }
     } else {
-        $error_message = "Invalid email or phone number";
+        $error_message = "Invalid email.";
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
