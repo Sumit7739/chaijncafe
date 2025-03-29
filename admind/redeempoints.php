@@ -82,14 +82,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
         $stmt->execute();
 
         // Insert notification for the user
-        $notificationMessage = "You have successfully redeemed $redeemPoints points.";
+        $notificationMessage = "You have redeemed points."; // Generic message without points value
         $notificationType = "redeem";
-        $status = "unread"; // 0 = unread, 1 = read
+        $status = "unread"; // Ensure this matches the ENUM values in the database
 
-        $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, status, created_at) VALUES (?, ?, ?, ?, NOW())");
-        $stmt->bind_param("isss", $userId, $notificationMessage, $notificationType, $status);
-        $stmt->execute();
+        // Prepare the SQL statement with the new `points` column
+        $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, points, status, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
 
+        // Bind parameters, including the `points` column
+        $stmt->bind_param("issss", $userId, $notificationMessage, $notificationType, $redeemPoints, $status);
+
+        // Execute the query
+        if (!$stmt->execute()) {
+            echo "Error: " . $stmt->error; // Output any errors for debugging
+        }
         // Refresh page to show updated values
         header("Location: redeempoints.php?user_id=$userId");
         exit();
@@ -154,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
             <a href="admindash.php"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
     </header>
-<br>
+    <br>
     <!-- Overlay Popup -->
     <div class="overlay" id="overlay">
         <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>

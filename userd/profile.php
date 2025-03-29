@@ -58,7 +58,7 @@ $totalRedeemed = $result->num_rows === 1 ? ($result->fetch_assoc()['total_redeem
 
 
 // Fetch recent activity (top 5 from notifications)
-$sql = "SELECT message, created_at, type 
+$sql = "SELECT message, points, created_at, type 
         FROM notifications 
         WHERE user_id = ? AND type IN ('points_update', 'redeem') 
         ORDER BY created_at DESC 
@@ -70,10 +70,10 @@ $activityResult = $stmt->get_result();
 $activities = $activityResult->fetch_all(MYSQLI_ASSOC);
 
 // Fetch high-priority announcement
-$sql = "SELECT title, message 
+$sql = "SELECT title, message, created_at 
         FROM announcements 
         WHERE priority = 'high' AND status = 'active' 
-        ORDER BY created_at DESC 
+        ORDER BY id DESC 
         LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -81,7 +81,7 @@ $announcementResult = $stmt->get_result();
 $announcement = $announcementResult->num_rows === 1 ? $announcementResult->fetch_assoc() : null;
 
 // Fetch system notifications for popup
-$sql = "SELECT message 
+$sql = "SELECT message, points 
         FROM notifications 
         WHERE user_id = ? AND type IN ('points_update', 'redeem', 'system') AND status = 'unread' ORDER BY id DESC
         LIMIT 5";
@@ -117,9 +117,7 @@ $conn->close();
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
-        .menu-list a{
-            text-decoration: none;
-        }
+      
     </style>
 </head>
 
@@ -169,7 +167,7 @@ $conn->close();
             </div>
             <div class="inffo">
                 <div class="btn1">
-                    <p>Total Points - <?php echo htmlspecialchars($pointsBalance); ?></p>
+                    <p>Total - <?php echo htmlspecialchars($pointsBalance); ?> pts</p>
                 </div>
                 <div class="btn2">
                     <p>Redeemed - <?php echo htmlspecialchars($totalRedeemed); ?> pts</p>
@@ -194,8 +192,21 @@ $conn->close();
             <button id="closeQrPopup">Close</button>
         </div>
     </div>
-    <hr>
+    <!-- <hr> -->
     <section class="sec2">
+        <?php if ($announcement): ?>
+            <div class="section">
+                <div class="announcement-container">
+                    <div class="announcement-header">Announcements</div>
+                    <div class="announcement-content">
+                        <h2><?php echo htmlspecialchars($announcement['title']); ?></h2>
+                        <h3><?php echo htmlspecialchars($announcement['message']); ?></h3>
+                        <p><?php echo htmlspecialchars($announcement['created_at']); ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <div class="section">
             <div class="activity-container">
                 <div class="activity-header">
@@ -206,7 +217,20 @@ $conn->close();
                     <?php if (count($activities) > 0): ?>
                         <?php foreach ($activities as $activity): ?>
                             <div class="activity-item <?php echo $activity['type'] === 'points_update' ? 'earned' : 'redeemed'; ?>">
-                                <?php echo htmlspecialchars($activity['message']); ?> - <?php echo date('d-m-y', strtotime($activity['created_at'])); ?>
+                                <div class="activity-icon">
+                                    <?php if ($activity['type'] === 'points_update'): ?>
+                                        <i class="fas fa-arrow-down"></i>
+                                    <?php else: ?>
+                                        <i class="fas fa-arrow-up"></i>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="activity-details">
+                                    <p><?php echo htmlspecialchars($activity['message']); ?></p>
+                                    <small><?php echo date('d-m-y', strtotime($activity['created_at'])); ?></small>
+                                </div>
+                                <div class="activity-points">
+                                    <?php echo htmlspecialchars($activity['points']) . ' pts'; ?>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -215,7 +239,6 @@ $conn->close();
                 </div>
             </div>
         </div>
-        <hr>
         <!-- <div class="section">
             <div class="referral-container">
                 Referral Bonus
@@ -225,18 +248,6 @@ $conn->close();
             </div>
         </div>
         <hr> -->
-        <?php if ($announcement): ?>
-            <div class="section">
-                <div class="announcement-container">
-                    <div class="announcement-header">Announcements</div>
-                    <div class="announcement-content">
-                        <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
-                        <p><?php echo htmlspecialchars($announcement['message']); ?></p>
-                    </div>
-                </div>
-            </div>
-            <hr>
-        <?php endif; ?>
     </section>
 
     <section class="sec3">
@@ -262,11 +273,15 @@ $conn->close();
         <div class="notif">
             <?php if (count($notifications) > 0): ?>
                 <?php foreach ($notifications as $notif): ?>
-                    <div class="notification-item">🔔 <?php echo htmlspecialchars($notif['message']); ?></div>
+                    <div class="notification-item">
+                        <i class="fa-solid fa-bell"></i>
+                        <a href="notification.php" style="text-decoration: none; color: #ff6464;"><?php echo htmlspecialchars($notif['message']); ?></a>
+                    </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="notification-item">No new notifications.</div>
-            <?php endif; ?>
+                <div class=" notification-item">No new notifications.
+                    </div>
+                <?php endif; ?>
         </div>
     </div>
 

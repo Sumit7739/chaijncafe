@@ -88,12 +88,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
             $stmt->execute();
 
             // Insert notification entry
-            $notificationMessage = "You have received $pointsEarned points.";
+            $notificationMessage = "You have received points."; // Generic message without points value
             $notificationType = "points_update";
             $notificationStatus = "unread";
 
-            $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, status, created_at) VALUES (?, ?, ?, ?, NOW())");
-            $stmt->bind_param("isss", $userId, $notificationMessage, $notificationType, $notificationStatus);
+            // Prepare the SQL statement with the new `points` column
+            $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, points, status, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+
+            // Bind parameters, including the `points` column
+            $stmt->bind_param("issss", $userId, $notificationMessage, $notificationType, $pointsEarned, $notificationStatus);
+
+            // Execute the query
             $stmt->execute();
 
             // Refresh page to show updated values
