@@ -36,7 +36,7 @@ $statsResult = $conn->query($statsQuery);
 $stats = $statsResult->fetch_assoc();
 
 // Fetch top customers
-$topCustomersQuery = "SELECT users.name, transactions.user_id, SUM(transactions.points_given) AS points 
+$topCustomersQuery = "SELECT users.name, users.profile_pic, transactions.user_id, SUM(transactions.points_given) AS points 
                       FROM transactions 
                       JOIN users ON transactions.user_id = users.user_id 
                       GROUP BY transactions.user_id 
@@ -45,6 +45,16 @@ $topCustomersQuery = "SELECT users.name, transactions.user_id, SUM(transactions.
 $topCustomersResult = $conn->query($topCustomersQuery);
 $topCustomers = $topCustomersResult->fetch_all(MYSQLI_ASSOC);
 
+
+// Construct the full URL for each profile picture
+foreach ($topCustomers as &$customer) {
+    $customer['profile_pic'] = $customer['profile_pic'] ?? 'profile/default.png';
+    if ($customer['profile_pic'] !== 'profile/default.png') {
+        $customer['profile_pic'] = '../userd/profile/uploads/' . $customer['profile_pic'];
+    } else {
+        $customer['profile_pic'] = '../userd/' . $customer['profile_pic'];
+    }
+}
 // Fetch the 5 most recent transactions
 $transactionsQuery = "SELECT users.name, users.user_id, transactions.amount_paid, transactions.points_given, transactions.transaction_date 
                       FROM transactions 
@@ -107,14 +117,14 @@ $transactions = $transactionsResult->fetch_all(MYSQLI_ASSOC);
 
     <div class="dashboard dashboard2">
         <h2>Top Customers</h2>
-        <?php foreach ($topCustomers as $customer): ?>
-            <div class="profile">
-                <img src="../image/user.png" alt="User Avatar">
-                <div class="profile-info">
+        <?php foreach ($topCustomers as &$customer): ?>
+            <div class="profile" style="padding: 0 25px 0px 0px;">
+                <img src="<?php echo $customer['profile_pic']; ?>" alt="Profile Picture" style="width: 70px; height: 70px; border-radius: 50%; margin-right: -20px;">
+                <div class="profile-info" style="width: 180px;">
                     <h3><?php echo $customer['name']; ?></h3>
                     <h4>ID: <?php echo $customer['user_id']; ?></h4>
                 </div>
-                <p><?php echo $customer['points']; ?> points</p>
+                <p><?php echo $customer['points']; ?> pts</p>
             </div>
         <?php endforeach; ?>
     </div>

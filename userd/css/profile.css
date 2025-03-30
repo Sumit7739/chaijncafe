@@ -180,7 +180,7 @@ body {
   max-width: 600px;
   margin: 10px auto;
   background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
+  border-radius: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
@@ -210,7 +210,7 @@ body {
 .activity-header .expand {
   font-size: 14px;
   color: #007bff;
-  background-color: #111;
+  background-color: #ffffff;
   padding: 5px 15px;
   border-radius: 5px;
   cursor: pointer;
@@ -296,6 +296,7 @@ body {
 
 /* Announcements */
 .announcement-container {
+  border-radius: 30px;
   padding: 10px;
 }
 
@@ -309,9 +310,10 @@ body {
 }
 
 .announcement-content {
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
+  background: rgba(36, 36, 36, 0.753);
+  border-radius: 18px;
   padding: 10px;
+  border: 1px solid rgba(247, 135, 135, 0.84);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
   animation: slideInUp 0.3s ease forwards;
@@ -323,21 +325,21 @@ body {
 
 .announcement-content h2 {
   font-size: 18px;
-  color: #007bff;
-  margin: 0 0 5px 0;
+  color: #ffffff;
+  margin: 0 0 10px 0;
   font-weight: 500;
 }
 
 .announcement-content h3 {
   font-size: 16px;
-  color: #222;
+  color: #ffffff;
   margin: 0;
   line-height: 20px;
 }
 
 .announcement-content p {
   font-size: 13px;
-  color: #222;
+  color: #ffffff;
   margin: 0;
   margin-top: 5px;
   line-height: 20px;

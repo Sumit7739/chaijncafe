@@ -26,7 +26,11 @@ if ($result->num_rows === 1) {
     $name = $user['name'] ?? 'User Name';
     $userIdDisplay = $user['user_id'];
     $pointsBalance = $user['points_balance'] ?? 0;
-    $profilePic = $user['profile_pic'] ?? '/profile/default.png';
+    $profilePic = $user['profile_pic'] ?? 'profile/default.png';
+    // Construct the full URL for the profile picture
+    if ($profilePic !== 'profile/default.png') {
+        $profilePic = 'profile/uploads/' . $profilePic;
+    }
     $qrImage = str_replace('userd/', '', $user['qrimage'] ?? 'qrcodes/default.png');
 } else {
     $name = 'User Name';
@@ -117,7 +121,11 @@ $conn->close();
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
-      
+        span {
+            color: #ff6464;
+            font-weight: bold;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -131,7 +139,7 @@ $conn->close();
         </div>
     </header>
     <div id="topNotificationPopup" class="top-notification">
-        <span id="notificationMessage"></span>
+        <span id="notificationMessage" style="color: #fff;"></span>
     </div>
     <div class="overlay" id="overlay">
         <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
@@ -140,15 +148,20 @@ $conn->close();
                 <a href="about.php">
                     <li>About <i class="fa-solid fa-chevron-right"></i></li>
                 </a>
-                <li>Help & Support <i class="fa-solid fa-chevron-right"></i></li>
-                <li>Leaderboard <i class="fa-solid fa-chevron-right"></i></li>
                 <a href="term.php">
                     <li>Terms and Conditions <i class="fa-solid fa-chevron-right"></i></li>
                 </a>
-                <li>Referral Hub <i class="fa-solid fa-chevron-right"></i></li>
-                <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Help & Support <span>coming soon</span> <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Leaderboard <span>coming soon</span> <i class="fa-solid fa-chevron-right"></i></li>
+                <li>Referral Hub <span>coming soon</span> <i class="fa-solid fa-chevron-right"></i></li>
+                <!-- <li>Rewards & Offers <span>coming soon</span> <i class="fa-solid fa-chevron-right"></i></li> -->
+                <li>App Updates & Upcoming Features<i class="fa-solid fa-chevron-right"></i> </li>
             </ul>
             <a href="logout.php" class="logout-btn">Log Out</a>
+        </div>
+        <div class="footer">
+            Created by Sumit Srivastava<br>version -
+                3.2.1.4</p>
         </div>
     </div>
 
@@ -187,7 +200,7 @@ $conn->close();
     <div id="qrPopup" class="qr-overlay">
         <div class="qr-popup">
             <h2>Scan the <i>QR</i> on the Scanner</h2>
-            <p>Coming Soon</p>
+            <p style="color: red;">Coming Soon</p>
             <img src="<?php echo htmlspecialchars($qrImage); ?>" alt="QR Code">
             <button id="closeQrPopup">Close</button>
         </div>
@@ -198,10 +211,10 @@ $conn->close();
             <div class="section">
                 <div class="announcement-container">
                     <div class="announcement-header">Announcements</div>
-                    <div class="announcement-content">
+                    <div class="announcement-content" style="border-left-color: rgba(247, 135, 135, 0.84);">
                         <h2><?php echo htmlspecialchars($announcement['title']); ?></h2>
                         <h3><?php echo htmlspecialchars($announcement['message']); ?></h3>
-                        <p><?php echo htmlspecialchars($announcement['created_at']); ?></p>
+                        <p><?php echo date('d-m-y', strtotime($announcement['created_at'])); ?></p>
                     </div>
                 </div>
             </div>
@@ -211,7 +224,7 @@ $conn->close();
             <div class="activity-container">
                 <div class="activity-header">
                     <span>Recent Activity</span>
-                    <a href="activity.php" class="expand">See All</a>
+                    <!-- <a href="activity.php" class="expand">See All</a> -->
                 </div>
                 <div class="activity-list">
                     <?php if (count($activities) > 0): ?>
@@ -234,7 +247,7 @@ $conn->close();
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="activity-item">No recent activity found.</div>
+                        <div class="activity-item" style="color: #fff;">No recent activity found.</div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -280,8 +293,8 @@ $conn->close();
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class=" notification-item">No new notifications.
-                    </div>
-                <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

@@ -6,7 +6,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if (!isset($_SESSION['email']) || !isset($_GET['email']) || $_SESSION['email'] !== $_GET['email']) {
-    header('Location: resetpassword.php');
+    header('Location: forgot.php');
     exit();
 }
 

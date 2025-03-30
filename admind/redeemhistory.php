@@ -19,7 +19,7 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($page - 1) * $limit;
 
 // Fetch total redemptions count
-$countQuery = "SELECT COUNT(*) AS total FROM redeem";
+$countQuery = "SELECT COUNT(*) AS total FROM redeem ORDER BY id DESC";
 $countResult = $conn->query($countQuery);
 $totalRedemptions = $countResult->fetch_assoc()['total'];
 $totalPages = ceil($totalRedemptions / $limit);
@@ -35,7 +35,7 @@ $totalPointsRedeemed = $redeemSum['total_redeemed'] ?? 0;
 $stmt = $conn->prepare("SELECT r.id, r.user_id, r.points_redeemed, r.date_redeemed, r.admin_id, u.name AS user_name 
                         FROM redeem r 
                         JOIN users u ON r.user_id = u.user_id 
-                        ORDER BY r.date_redeemed DESC 
+                        ORDER BY r.id DESC 
                         LIMIT ?, ?");
 $stmt->bind_param("ii", $offset, $limit);
 $stmt->execute();
@@ -231,7 +231,7 @@ $redeemResult = $stmt->get_result();
         <table class="redeem-table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>TRNX ID</th>
                     <th>User</th>
                     <th>Points Redeemed</th>
                     <th>Date</th>

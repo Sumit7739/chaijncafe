@@ -15,6 +15,21 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 
+// Handle clear all notifications request
+if (isset($_POST['clear_all']) && $_POST['clear_all'] == 'true') {
+    $sql = "DELETE FROM notifications WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    if ($stmt->execute()) {
+        // Success: All notifications deleted
+        echo json_encode(['success' => true, 'message' => 'All notifications cleared.']);
+        exit();
+    } else {
+        // Error: Failed to delete notifications
+        echo json_encode(['success' => false, 'message' => 'Failed to clear notifications.']);
+        exit();
+    }
+}
 // Pagination setup
 $limit = 10;
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
@@ -41,7 +56,7 @@ $totalNotifications = $result->fetch_assoc()['total'];
 $totalPages = ceil($totalNotifications / $limit);
 
 // Fetch notifications
-$sql = "SELECT message, type, created_at 
+$sql = "SELECT message, points, type, created_at 
         FROM notifications 
         WHERE user_id = ? AND type IN ('points_update', 'redeem') $whereClause 
         ORDER BY created_at DESC 
@@ -56,7 +71,7 @@ $notifications = $result->fetch_all(MYSQLI_ASSOC);
 $sql = "SELECT title, message, priority, created_at 
         FROM announcements 
         WHERE status = 'active' AND priority IN ('high', 'normal', 'low') 
-        ORDER BY created_at DESC";
+        ORDER BY id DESC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -86,8 +101,13 @@ $conn->close();
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/admindash.css">
+    <!-- <link rel="stylesheet" href="css/profile.css"> -->
     <link rel="stylesheet" href="css/notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+       
+    </style>
 </head>
 
 <body>
@@ -100,45 +120,36 @@ $conn->close();
         </div>
     </header>
     <br>
-
+    <br>
     <section class="sec1">
-        <h2>Announcements</h2>
-        <div class="announcement-list">
-            <?php if (count($announcements) > 0): ?>
-                <?php foreach ($announcements as $announcement): ?>
-                    <div class="announcement-card">
-                        <div class="announcement-content">
-                            <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
-                            <p><?php echo htmlspecialchars($announcement['message']); ?></p>
-                        </div>
-                        <div class="announcement-date"><?php echo date('d-m-y H:i', strtotime($announcement['created_at'])); ?></div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="announcement-card">No announcements found.</div>
-            <?php endif; ?>
+
+        <div class="notif">
+            <div class="head">
+                <h2>Notifications</h2>
+                <button class="btn" id="clearAllBtn">Clear All</button>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn <?php echo $filter === 'all' ? 'active' : ''; ?>" onclick="window.location.href='notification.php?filter=all<?php echo $page > 1 ? "&page=$page" : ""; ?>'">All</button>
+                <button class="filter-btn <?php echo $filter === 'earned' ? 'active' : ''; ?>" onclick="window.location.href='notification.php?filter=earned<?php echo $page > 1 ? "&page=$page" : ""; ?>'">Earned</button>
+                <button class="filter-btn <?php echo $filter === 'redeemed' ? 'active' : ''; ?>" onclick="window.location.href='notification.php?filter=redeemed<?php echo $page > 1 ? "&page=$page" : ""; ?>'">Redeemed</button>
+            </div>
         </div>
 
-        <h2>Notifications</h2>
-
-        <div class="filter-buttons">
-            <button class="filter-btn <?php echo $filter === 'all' ? 'active' : ''; ?>" onclick="window.location.href='notification.php?filter=all<?php echo $page > 1 ? "&page=$page" : ""; ?>'">All</button>
-            <button class="filter-btn <?php echo $filter === 'earned' ? 'active' : ''; ?>" onclick="window.location.href='notification.php?filter=earned<?php echo $page > 1 ? "&page=$page" : ""; ?>'">Earned</button>
-            <button class="filter-btn <?php echo $filter === 'redeemed' ? 'active' : ''; ?>" onclick="window.location.href='notification.php?filter=redeemed<?php echo $page > 1 ? "&page=$page" : ""; ?>'">Redeemed</button>
-        </div>
-
-        <div class="notification-list">
+        <div class="notification-list" id="notificationList">
             <?php if (count($notifications) > 0): ?>
                 <?php foreach ($notifications as $notification): ?>
                     <div class="notification-card <?php echo $notification['type'] === 'points_update' ? 'earned' : 'redeemed'; ?>">
                         <div class="notification-content">
                             <p><?php echo htmlspecialchars($notification['message']); ?></p>
+                            <div class="notification-date"><?php echo date('d-m-y', strtotime($notification['created_at'])); ?></div>
                         </div>
-                        <div class="notification-date"><?php echo date('d-m-y H:i', strtotime($notification['created_at'])); ?></div>
+                        <div class="points-earned">
+                            <p><?php echo htmlspecialchars($notification['points']); ?> pts</p>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="notification-card">No notifications found.</div>
+                <div class="notification-car" style="color: red;">No notifications found.</div>
             <?php endif; ?>
         </div>
 
@@ -154,6 +165,25 @@ $conn->close();
             <?php endif; ?>
         </div>
     </section>
+    <div class="announcement-list">
+        <h2>Announcements</h2>
+        <?php if (count($announcements) > 0): ?>
+            <?php foreach ($announcements as $announcement): ?>
+                <?php
+                $priorityClass = strtolower($announcement['priority']);
+                ?>
+                <div class="announcement-card <?php echo $priorityClass; ?>">
+                    <div class="announcement-content">
+                        <h3><?php echo htmlspecialchars($announcement['title']); ?></h3>
+                        <p><?php echo htmlspecialchars($announcement['message']); ?></p>
+                        <p><?php echo date('d-m-y', strtotime($announcement['created_at'])); ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="announcement-card" style="color: red;">No announcements found.</div>
+        <?php endif; ?>
+    </div>
     <br><br>
     <section class="sec3">
         <div class="navbar">
@@ -169,6 +199,63 @@ $conn->close();
             <a href="settings.php"><i class="fa-solid fa-gear"></i></a>
         </div>
     </section>
+    <div id="toast-container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#clearAllBtn").click(function() {
+                $.ajax({
+                    url: 'notification.php', // Current file
+                    type: 'POST',
+                    data: {
+                        clear_all: 'true'
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Clear the notification list
+                            $("#notificationList").empty();
+                            $("#notificationList").append('<div class="notification-card">No notifications found.</div>');
+                            // Optionally, update the unread count in the navbar
+                            $(".unread-indicator").remove();
+                            // Show success toast
+                            showToast('success', response.message);
+                        } else {
+                            // Show error toast
+                            showToast('error', response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                        // Show error toast
+                        showToast('error', "An error occurred while clearing notifications.");
+                    }
+                });
+            });
+        });
+
+        function showToast(type, message) {
+            // Create toast element
+            var toast = $('<div></div>')
+                .addClass('toast')
+                .addClass(type)
+                .text(message);
+
+            // Append to container
+            $('#toast-container').append(toast);
+
+            // Fade in
+            toast.hide().fadeIn(300);
+
+            // Auto-hide after 3 seconds
+            setTimeout(function() {
+                toast.fadeOut(300, function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        }
+    </script>
 </body>
 
 </html>

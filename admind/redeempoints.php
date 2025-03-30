@@ -22,13 +22,20 @@ if (isset($_GET['user_id'])) {
     $userId = intval($_GET['user_id']);
 
     // Fetch user details
-    $stmt = $conn->prepare("SELECT name, user_id, points_balance, total_points, amount_spent, created_at FROM users WHERE user_id = ?");
+    $stmt = $conn->prepare("SELECT name, profile_pic, user_id, points_balance, total_points, amount_spent, created_at FROM users WHERE user_id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
 
     if ($user) {
+        // Construct the full URL for the profile picture
+        $user['profile_pic'] = $user['profile_pic'] ?? 'profile/default.png';
+        if ($user['profile_pic'] !== 'profile/default.png') {
+            $user['profile_pic'] = '../userd/profile/uploads/' . $user['profile_pic'];
+        } else {
+            $user['profile_pic'] = '../userd/' . $user['profile_pic']; // Default image path
+        }
         $showSearch = false;
     } else {
         echo "<script>alert('User not found'); window.location.href='redeempoints.php';</script>";
@@ -148,6 +155,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
         .amount-container button {
             padding: 5px 10px;
         }
+
+        #profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
     </style>
 </head>
 
@@ -182,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
             <div class="user-card">
                 <h2 style="font-weight: 500; margin-bottom: 10px;">User Details</h2>
                 <div class="profile">
-                    <img src="../image/user.png" alt="User Avatar">
+                    <img id="profile-pic" src="<?php echo htmlspecialchars($user['profile_pic']); ?>" alt="User">
                     <div class="profile-info">
                         <p><?php echo htmlspecialchars($user['name']); ?></p>
                         <small>ID: <?php echo htmlspecialchars($user['user_id']); ?></small>
