@@ -9,9 +9,7 @@ ChaiJunction is a rewards and engagement system built for the ChaiJunction Café
 <!-- **This is the 3rd verion of the platform. Previous Versions can be found on the Repo named Inner-Circle** -->
 **ChaiJunction Platform (Version 3)**
 
-This is the third iteration of the ChaiJunction platform. Previous versions, known as "Inner-Circle," can be found in the repository under that name. This version represents a significant upgrade, incorporating feedback and new features to enhance the user experience.
-
-
+This is the third iteration of the ChaiJunction platform. Previous versions, known as "Inner-Circle," can be found in the repository under that name. This version represents a significant upgrade, incorporating feedback and new features to enhance the user experience significantly. In this release, we have shifted our development focus towards creating an application (`app`), offering greater flexibility, scalability, and a more robust user interface compared to its predecessors.
 
 ## Key Features
 
