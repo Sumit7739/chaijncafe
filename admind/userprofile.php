@@ -28,11 +28,19 @@ if ($user_id <= 0) {
 }
 
 // Fetch user details
-$user_stmt = $conn->prepare("SELECT user_id, name, phone, email, total_points, points_balance, amount_spent, created_at FROM users WHERE user_id = ?");
+$user_stmt = $conn->prepare("SELECT user_id, profile_pic, name, phone, email, total_points, points_balance, amount_spent, created_at FROM users WHERE user_id = ?");
 $user_stmt->bind_param("i", $user_id);
 $user_stmt->execute();
 $user = $user_stmt->get_result()->fetch_assoc();
-if (!$user) {
+if ($user) {
+    // Construct the full URL for the profile picture
+    $user['profile_pic'] = $user['profile_pic'] ?? 'profile/default.png';
+    if ($user['profile_pic'] !== 'profile/default.png') {
+        $user['profile_pic'] = '../userd/profile/uploads/' . $user['profile_pic'];
+    } else {
+        $user['profile_pic'] = '../userd/' . $user['profile_pic']; // Default image path
+    }
+} else {
     die("User not found.");
 }
 
@@ -241,7 +249,7 @@ $redeems = $redeem_stmt->get_result();
                 <div class="user-card">
                     <!-- <h2>User Details</h2> -->
                     <div class="profile">
-                        <img src="../image/user.png" alt="User Avatar">
+                        <img id="profile-pic" src="<?php echo htmlspecialchars($user['profile_pic']); ?>" alt="User" style="width: 150px; height: 120px;">
                         <div class="profile-info">
                             <p><?php echo htmlspecialchars($user['name']); ?></p>
                             <small>ID: <?php echo htmlspecialchars($user['user_id']); ?></small>

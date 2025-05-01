@@ -109,8 +109,8 @@ button {
 }
 
 .profile img {
-    max-width: 50px;
-    max-height: 50px;
+    width: 100px;
+    height: 70px;
     border-radius: 50%;
     object-fit: cover;
 }

@@ -22,13 +22,20 @@ if (isset($_GET['user_id'])) {
     $userId = intval($_GET['user_id']);
 
     // Fetch user details
-    $stmt = $conn->prepare("SELECT name, user_id, points_balance, total_points, amount_spent, created_at FROM users WHERE user_id = ?");
+    $stmt = $conn->prepare("SELECT name, profile_pic, user_id, points_balance, total_points, amount_spent, created_at FROM users WHERE user_id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
 
     if ($user) {
+        // Construct the full URL for the profile picture
+        $user['profile_pic'] = $user['profile_pic'] ?? 'profile/default.png';
+        if ($user['profile_pic'] !== 'profile/default.png') {
+            $user['profile_pic'] = '../userd/profile/uploads/' . $user['profile_pic'];
+        } else {
+            $user['profile_pic'] = '../userd/' . $user['profile_pic']; // Default image path
+        }
         $showSearch = false;
     } else {
         echo "<script>alert('User not found'); window.location.href='redeempoints.php';</script>";
@@ -82,14 +89,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
         $stmt->execute();
 
         // Insert notification for the user
-        $notificationMessage = "You have successfully redeemed $redeemPoints points.";
+        $notificationMessage = "You have redeemed points."; // Generic message without points value
         $notificationType = "redeem";
-        $status = "unread"; // 0 = unread, 1 = read
+        $status = "unread"; // Ensure this matches the ENUM values in the database
 
-        $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, status, created_at) VALUES (?, ?, ?, ?, NOW())");
-        $stmt->bind_param("isss", $userId, $notificationMessage, $notificationType, $status);
-        $stmt->execute();
+        // Prepare the SQL statement with the new `points` column
+        $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, points, status, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
 
+        // Bind parameters, including the `points` column
+        $stmt->bind_param("issss", $userId, $notificationMessage, $notificationType, $redeemPoints, $status);
+
+        // Execute the query
+        if (!$stmt->execute()) {
+            echo "Error: " . $stmt->error; // Output any errors for debugging
+        }
         // Refresh page to show updated values
         header("Location: redeempoints.php?user_id=$userId");
         exit();
@@ -142,6 +155,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
         .amount-container button {
             padding: 5px 10px;
         }
+
+        #profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
     </style>
 </head>
 
@@ -154,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
             <a href="admindash.php"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
     </header>
-<br>
+    <br>
     <!-- Overlay Popup -->
     <div class="overlay" id="overlay">
         <i class="fa-solid fa-xmark close-btn" onclick="toggleOverlay()"></i>
@@ -176,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['redeem_points'])) {
             <div class="user-card">
                 <h2 style="font-weight: 500; margin-bottom: 10px;">User Details</h2>
                 <div class="profile">
-                    <img src="../image/user.png" alt="User Avatar">
+                    <img id="profile-pic" src="<?php echo htmlspecialchars($user['profile_pic']); ?>" alt="User">
                     <div class="profile-info">
                         <p><?php echo htmlspecialchars($user['name']); ?></p>
                         <small>ID: <?php echo htmlspecialchars($user['user_id']); ?></small>

@@ -35,14 +35,20 @@ $stmt->bind_result($totalTransactions, $totalPoints);
 $stmt->fetch();
 $stmt->close();
 
-// Fetch all users
-$query = "SELECT user_id, name, email, phone, points_balance, card_level_id, created_at FROM users";
+$query = "SELECT user_id, profile_pic, name, email, phone, points_balance, card_level_id, created_at FROM users";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
 
 $users = [];
 while ($row = $result->fetch_assoc()) {
+    // Construct the full URL for the profile picture
+    $row['profile_pic'] = $row['profile_pic'] ?? 'profile/default.png';
+    if ($row['profile_pic'] !== 'profile/default.png') {
+        $row['profile_pic'] = '../userd/profile/uploads/' . $row['profile_pic'];
+    } else {
+        $row['profile_pic'] = '../userd/' . $row['profile_pic']; // Default image path
+    }
     $users[] = $row;
 }
 $stmt->close();
@@ -112,6 +118,11 @@ $usersJson = json_encode($users);
                 <!-- <li>Rewards & Offers <i class="fa-solid fa-chevron-right"></i></li> -->
             </ul>
             <a href="logout.php" class="logout-btn" style="position:absolute; bottom: 0; width:100%">Log Out</a>
+        </div> 
+        <br>
+        <div class="footer">
+            Created by Sumit Srivastava<br>version -
+            3.2.1.4</p>
         </div>
     </div>
 
@@ -285,28 +296,27 @@ $usersJson = json_encode($users);
         function displayUsers(users) {
             let userList = document.getElementById('usersList');
             userList.innerHTML = "";
-
             users.forEach(user => {
                 let userCard = document.createElement('div');
                 userCard.classList.add('user-card');
                 userCard.innerHTML = `
-        <div class="profile">
-            <img src="../image/user.png" alt="User Avatar">
-            <div class="profile-info">
-                <p>${user.name}</p>
-                <small>ID: ${user.user_id}</small>
+            <div class="profile">
+                <img src="${user.profile_pic}" alt="Profile Picture">
+                <div class="profile-info">
+                    <p>${user.name}</p>
+                    <small>ID: ${user.user_id}</small>
+                </div>
             </div>
-        </div>
-        <div class="stats">
-            <div>Total Points: ${user.points_balance}</div>
-            <div>Joined on ${new Date(user.created_at).toLocaleDateString()}</div>
-        </div>
-        <hr>
-        <div class="buttons">
-            <button class="add-points" onclick="redirectToPage('addpoints.php', '${user.user_id}')"><i class="fa-solid fa-plus"></i> Add Points</button>
-            <button class="redeem-points" onclick="redirectToPage('redeempoints.php', '${user.user_id}')"><i class="fa-solid fa-coins"></i> Redeem Points</button>
-        </div>
-    `;
+            <div class="stats">
+                <div>Total Points: ${user.points_balance}</div>
+                <div>Joined on ${new Date(user.created_at).toLocaleDateString()}</div>
+            </div>
+            <hr>
+            <div class="buttons">
+                <button class="add-points" onclick="redirectToPage('addpoints.php', '${user.user_id}')"><i class="fa-solid fa-plus"></i> Add Points</button>
+                <button class="redeem-points" onclick="redirectToPage('redeempoints.php', '${user.user_id}')"><i class="fa-solid fa-coins"></i> Redeem Points</button>
+            </div>
+        `;
                 userList.appendChild(userCard);
             });
         }

@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="input-box">
                 <label>Enter Your Email</label>
-                <input type="email" name="email" required>
+                <input type="email" name="email">
             </div>
 
             <div class="input-box">
